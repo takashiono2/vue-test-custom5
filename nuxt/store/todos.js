@@ -17,7 +17,8 @@ export const actions = {
       todosRef.add({//todosRefメソッドでaddでストアに登録
         name: name,
         done: false,
-        created: firebase.firestore.FieldValue.serverTimestamp()
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+        state: name
       })
     }
   }),

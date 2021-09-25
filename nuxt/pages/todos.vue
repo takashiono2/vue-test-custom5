@@ -3,6 +3,7 @@
       <h1>Todoリスト</h1>
       <router-link to='/'>ホームへ</router-link> |
       <router-link to='/create'>作成ページへ</router-link>
+      <router-link to='/edit'>編集ページへ</router-link>
       <div>
 
         <div class="form">
@@ -42,6 +43,7 @@
               <td>2020-04-30 17:00</td>
               <td><button class="button button--yet">作業前</button></td>
               <td><button @click="remove(todo.id)">削除</button></td>
+              <td><button @click="edit(todo.id)">編集</button></td>
             </tr>
           </tbody>
           <!-- <ul>
@@ -83,7 +85,10 @@
       },
       toggle(todo){
         this.$store.dispatch('todos/toggle',todo)
-      }
+      },
+      edit(id){
+        this.$store.dispatch('todos/edit',id)
+      },
     },
     computed:{
       todos(){
