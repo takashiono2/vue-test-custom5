@@ -18,7 +18,7 @@ export const actions = {
         name: name,
         done: false,
         created: firebase.firestore.FieldValue.serverTimestamp(),
-        state: name
+        state: '作業前'
       })
     }
   }),
@@ -30,4 +30,9 @@ export const actions = {
       done: !todo.done
     })
   })
+}
+export const getters = {
+  orderdTodos: state => {
+    return _.sortBy(state.todos, 'created')
+  }
 }
