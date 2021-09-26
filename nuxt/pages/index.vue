@@ -46,13 +46,25 @@
                     >
                   </td>
                 <td>
-                  <select v-model="selected">
+                  <!-- <div v-for="option in options" :key="option.index"> -->
+                    <select v-model="selection[todo.id]"><!--valueの値がv-modlになり、v-modelは、dataのオブジェクトをとってくる-->
+                        <option disabled value="">選択して下さい</option>
+                        <option value="未設定">未設定</option>
+                        <option value="作業中">作業中</option>
+                        <option value="完了">完了</option>
+                    </select>
+                    <span>{{ selection[todo.id] }}</span>
+                    <span>{{ todo.state }}</span>
+                    <!-- <p>{{ value }}</p> -->
+                  <!-- </div> -->
+
+                  <!-- <select v-model="selected">
                     <option disabled value="">Please select one</option>
                     <option>作業前</option>
                     <option>作業中</option>
                     <option>完了</option>
                   </select>
-                  <span>状態: {{ todo.state }}</span>
+                  <span>状態: {{ todo.state }}</span> -->
                 </td>
                 <td><button @click="remove(todo.id)">削除</button></td>
                 <td><button @click="edit(todo.id)">編集</button></td>
@@ -75,8 +87,15 @@
         done: false,
         content:'',
         state:'作業前',
+        options:[
+          {index:0 ,label:'作業前'},
+          {index:1 ,label:'作業中'},
+          {index:2 ,label:'完了'}
+        ],
+        selection:[]
         // visibility: 'all'
       }
+
     },
     created: function() {
       this.$store.dispatch('todos/init')
@@ -95,6 +114,9 @@
       },
       edit(id){
         this.$store.dispatch('todos/edit',id)
+      },
+      changeOption(){
+        this.label = this.options[0];
       },
     },
     computed:{
