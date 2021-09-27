@@ -1,20 +1,21 @@
 <template>
-  <div id="header">
-    <h1>Todoリスト</h1>
-    <div id="contents">
-      <Nuxt />
-    </div>
+  <div id="contents">
+    <Header />
+    <Nuxt />
   </div>
 </template>
 
-<style>
-#header{
-  width: auto;
-  height: 46px;
-  background-color:#1e93c1;
-  text-align: center;
+<script>
+import Header from '~/components/Header.vue'
+
+export default {
+  components: {
+    Header
+  }
 }
 
+</script>
+<style>
 #contents{
   font-size: 1.4em;
   width:80%;
