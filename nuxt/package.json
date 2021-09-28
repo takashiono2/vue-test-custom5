@@ -20,6 +20,7 @@
     "vuexfire": "^3.0.1"
   },
   "devDependencies": {
+    "@nuxtjs/vuetify": "^1.12.1",
     "sass": "~1.32.0",
     "sass-loader": "^10.0.0",
     "vue-cli-plugin-vuetify": "~2.4.2",
