@@ -25,7 +25,7 @@ export const actions = {
         name: name,
         done: false,
         created: firebase.firestore.FieldValue.serverTimestamp(),
-        state: '作業前'
+        state: '未完了'
       })
     }
   }),
@@ -37,10 +37,10 @@ export const actions = {
   changeState: firestoreAction((context, todo) => {//toggleでtodoの完了を確認する
     if(todo.state==="完了"){
       todosRef.doc(todo.id).update({
-          state: '作業前'
+          state: '未完了'
         })
       }
-    else if(todo.state==="作業前"){
+    else if(todo.state==="未完了"){
       todosRef.doc(todo.id).update({
         state: '完了'
       })

@@ -6,7 +6,7 @@
       <div>
     <span class="todo-count">
       <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
-      <strong>件</strong>未完了
+      <strong>{{ remaining.length }}件</strong>完了/合計{{todos.length}}件
     </span>
         <!-- <div class="form">
           <form v-on:submit.prevent ="add">
@@ -16,10 +16,9 @@
         </div> -->
 
         <div class="Filter">
-          <button>全て</button>
-          <button>作業前</button>
-          <button>作業中</button>
-          <button>完了</button>
+          <button @click="allState">全て</button>
+          <button @click="goState">未完了</button>
+          <button @click="finState">完了</button>
         </div>
       </div>
 
@@ -36,6 +35,7 @@
           </thead>
           <tbody>
             <tr v-for="todo in todos" :key="todo.id">
+            <!-- <tr v-for="todo in doneTodos" :key="todo.id"> -->
               <span v-if="todo.created">
                 <td>{{ todo.name }}</td>
                   <!--チェックボックスの場合
@@ -52,8 +52,7 @@
                 <td>
                     <button class="button"
                       v-bind:class="{
-                        'button--yet':todo.state == '作業前',
-                        'button--progress':todo.state == '作業中',
+                        'button--yet':todo.state == '未完了',
                         'button--done':todo.state == '完了'}"
                       @click="changeState(todo)">
                       {{ todo.state }}
@@ -111,8 +110,15 @@
       },
       changeState: function(todo){
         this.$store.dispatch('todos/changeState',todo)
-        console.log(todo.state)
-        console.log(todo.name)
+      },
+      allState(){
+
+      },
+      goState(){
+
+      },
+      finState(){
+
       }
     },
     computed:{
@@ -125,6 +131,11 @@
       },
       stateFilter(){//状態をフィルター
         return this.$store.getters['todos/stateTodos']
+      },
+      remaining(){
+        return this.todos.filter(todo => {
+          return todo.state === "完了"
+        })
       }
     },
     filters:{
