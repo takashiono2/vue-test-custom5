@@ -25,7 +25,8 @@ export const actions = {
         name: name,
         done: false,
         created: firebase.firestore.FieldValue.serverTimestamp(),
-        state: '未完了'
+        state: '未完了',
+        discription :discription
       })
     }
   }),

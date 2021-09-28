@@ -1,8 +1,17 @@
 <template>
   <section class="container">
-      <router-link to='/'>ホームへ</router-link> |
-      <router-link to='/create'>作成ページへ</router-link> |
-      <router-link to='/edit'>編集ページへ</router-link>
+      <router-link to='/'
+      exact
+      active-class="link-active"
+      >ホームへ</router-link> |
+      <router-link to='/create'
+      exact
+      active-class="link-active"
+      >作成ページへ</router-link> |
+      <router-link to='/edit'
+      exact
+      active-class="link-active"
+      >編集ページへ</router-link>
     <div>
       <span class="todo-count">
         <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
@@ -25,7 +34,7 @@
           <thead>
             <tr>
               <span>
-                <th>タイトル | </th>
+                <th>タスク | </th>
                 <th>状態 | </th>
                 <th>ボタン | </th>
                 <th>登録日時 | </th>
@@ -161,3 +170,14 @@
     }
   }
 </script>
+
+<style>
+.link-active{
+  color: rgba(0,0,0,0.3);
+}
+.container{
+  font-family: "Noto Sans Japanese", "Noto Sans", 'system-ui', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+</style>
