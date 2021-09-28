@@ -1,8 +1,10 @@
-
 <template>
   <div id="header">
     <h1>Todoリスト</h1>
-  </div>
+      <!-- <router-link to='/'>ホームへ</router-link> |
+      <router-link to='/create'>作成ページへ</router-link> |
+      <router-link to='/edit'>編集ページへ</router-link> -->
+    </div>
 </template>
 
 <script>

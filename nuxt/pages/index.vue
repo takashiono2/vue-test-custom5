@@ -1,26 +1,25 @@
 <template>
   <section class="container">
       <router-link to='/'>ホームへ</router-link> |
-      <router-link to='/create'>作成ページへ</router-link>
+      <router-link to='/create'>作成ページへ</router-link> |
       <router-link to='/edit'>編集ページへ</router-link>
-      <div>
-    <span class="todo-count">
-      <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
-      <strong>{{ remaining.length }}件</strong>完了/合計{{todos.length}}件
-    </span>
+    <div>
+      <span class="todo-count">
+        <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
+        <strong>{{ remaining.length }}件</strong>完了/合計{{doneTodos.length}}件
+      </span>
         <!-- <div class="form">
           <form v-on:submit.prevent ="add">
             <input v-model="name" placeholder="タスクを入力してください">
             <button>Add</button>
           </form>
         </div> -->
-
         <div class="Filter">
           <button @click="allState">全て</button>
           <button @click="goState">未完了</button>
           <button @click="finState">完了</button>
         </div>
-      </div>
+    </div>
 
         <table class="Lists">
           <thead>
@@ -34,8 +33,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="todo in todos" :key="todo.id">
-            <!-- <tr v-for="todo in doneTodos" :key="todo.id"> -->
+            <!-- <tr v-for="todo in todos" :key="todo.id"> -->
+            <tr v-for="todo in doneTodos" :key="todo.id">
               <span v-if="todo.created">
                 <td>{{ todo.name }}</td>
                   <!--チェックボックスの場合
@@ -80,11 +79,13 @@
     layout: 'default',
     data: function(){
       return {
+        todos:[],
         name:'',
         done: false,
         content:'',
         state:'',
-        selection:[]
+        btn:''
+        // selection:[]
         // visibility: 'all'
       }
 
@@ -111,29 +112,44 @@
       changeState: function(todo){
         this.$store.dispatch('todos/changeState',todo)
       },
-      allState(){
-
+      allState(){//全表示ボタンallState()したらallbtnという名にする
+        this.btn = 'allBtn';
       },
-      goState(){
-
+      goState(){//未完了ボタンgoState()したらgobtnという名にする
+        this.btn = 'goBtn';
       },
-      finState(){
-
+      finState(){//完了finState()したらfinbtnという名にする
+        this.btn = 'finBtn';
       }
     },
     computed:{
       // filteredTodos: function () {
       //   return filters[this.visibility](this.todos)
       // },
-      todos() {
+      doneTodos(){//時間並び処理
+        this.todos = this.$store.getters['todos/orderdTodos']
+        switch(this.btn){
+          case 'goBtn':
+            return this.todos.filter(todo=>todo.state === "未完了");
+            break;
+          case 'finBtn':
+            return this.todos.filter(todo=>todo.state === "完了");
+            break;
+          case 'allbtn':
+            return this.todos;
+            break;
+          default:
+            return this.todos;
+          }
         // return this.$store.state.todos.todos
-        return this.$store.getters['todos/orderdTodos']
+        // return this.$store.getters['todos/orderdTodos']
       },
-      stateFilter(){//状態をフィルター
-        return this.$store.getters['todos/stateTodos']
-      },
-      remaining(){
-        return this.todos.filter(todo => {
+      // todos() {
+      //   // return this.$store.state.todos.todos
+      //   return this.$store.getters['todos/orderdTodos']
+      // },
+      remaining(){//完了の数計算処理
+        return this.doneTodos.filter(todo => {
           return todo.state === "完了"
         })
       }
