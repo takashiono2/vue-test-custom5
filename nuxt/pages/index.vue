@@ -54,8 +54,11 @@
                         @change="toggle(todo)"
                         >
                     </td>-->
-                <td><button @click="remove(todo.id)">削除</button></td>
-                <td><button @click="edit(todo.id)">編集</button></td>
+                <!-- <td><button @click="remove(todo.id)">削除</button></td> -->
+                <!-- <td><button @click="remove(todo.id)">削除</button></td> -->
+                <td><v-icon dense class="ma" @click="edit(todo.id)">mdi-pencil</v-icon></td>
+                <td><v-icon dense class="ma" @click="remove(todo.id)">mdi-delete</v-icon></td>
+                <!-- <td><button @click="edit(todo.id)">編集</button></td> -->
                 <td>{{ todo.created.toDate() | dateFilter }}</td>
                 <td>
                     <button class="button"
