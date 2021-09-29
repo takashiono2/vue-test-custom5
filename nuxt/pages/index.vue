@@ -1,17 +1,17 @@
 <template>
   <section class="container">
-      <router-link to='/'
+      <nuxt-link target="_blank" to='/'
       exact
       active-class="link-active"
-      >ホームへ</router-link> |
-      <router-link to='/create'
+      >ホームへ</nuxt-link> |
+      <nuxt-link target="_blank" to='/create'
       exact
       active-class="link-active"
-      >作成ページへ</router-link> |
-      <router-link to='/edit'
+      >作成ページへ</nuxt-link> |
+      <nuxt-link target="_blank" to='/edit'
       exact
       active-class="link-active"
-      >編集ページへ</router-link>
+      >編集ページへ</nuxt-link>
     <div>
       <span class="todo-count">
         <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
@@ -38,6 +38,7 @@
                 <th>状態 | </th>
                 <th>ボタン | </th>
                 <th>登録日時 | </th>
+                <th>id | </th>
               </span>
             </tr>
           </thead>
@@ -45,7 +46,17 @@
             <!-- <tr v-for="todo in todos" :key="todo.id"> -->
             <tr v-for="todo in doneTodos" :key="todo.id">
               <span v-if="todo.created">
-                <td>{{ todo.name }}</td>
+                <!-- <td>{{ todo.name }}</td> -->
+                <td>
+                  <nuxt-link target="_blank" :to="{ name: 'users-id',params: {id: todo.id}}"
+                      exact
+                      active-class="link-active"
+                      >{{ todo.name }}</nuxt-link>
+                  <!-- <nuxt-link target="_blank" :to="{ name: 'users-id',params: {id: todo.id}}"
+                      exact
+                      active-class="link-active"
+                      >{{ todo.name }}</nuxt-link> -->
+                </td>
                   <!--チェックボックスの場合
                     <td>
                         <input
@@ -77,6 +88,7 @@
                         <option value="完了">完了</option>
                     </select>--><!--valueの値がv-modlになり、v-modelは、dataのオブジェクトをとってくる-->
                 </td>
+                <td>{{ todo.id }}</td>
               </span>
             </tr>
           </tbody>

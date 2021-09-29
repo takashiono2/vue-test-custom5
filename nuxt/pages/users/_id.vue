@@ -6,9 +6,13 @@
 
 <script>
   export default {
+    props: {
+      name: 'users-id',
+    },
     validate ({ params }) {
-      // 数値でなければならない
-      return /^\d+$/.test(params.id)
+      // 「\w」アルファベット、アンダーバー、数字
+      return /^\w+$/.test(params.id)
     }
   }
+
 </script>
