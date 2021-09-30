@@ -46,7 +46,7 @@ export const actions = {
         state: '完了'
       })
     }
-    })
+    }),
             //ステータスの更新チェックボックスの場合
             // toggle: firestoreAction((context, todo) => {//toggleでtodoの完了を確認する
             //   todosRef.doc(todo.id).update({
@@ -57,5 +57,8 @@ export const actions = {
 export const getters = {
   orderdTodos: state => {
     return _.sortBy(state.todos, 'created')
-  }
+  },
+  // todoState: state => {
+  //   return state.todos
+  // }
 }
