@@ -28,7 +28,7 @@
     data(){
       return {
         todos:[],
-        name:''
+        name:'',
       }
     },
     methods:{

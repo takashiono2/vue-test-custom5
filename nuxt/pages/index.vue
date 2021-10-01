@@ -23,14 +23,14 @@
             <button>Add</button>
           </form>
         </div> -->
-        <div class="Filter">
+        <div>
           <button @click="allState">全て</button>
           <button @click="goState">未完了</button>
           <button @click="finState">完了</button>
         </div>
     </div>
 
-        <table class="Lists">
+        <table class="showtable">
           <thead>
             <tr>
               <span>
@@ -38,7 +38,7 @@
                 <th>状態 | </th>
                 <th>ボタン | </th>
                 <th>登録日時 | </th>
-                <th>id | </th>
+                <th>日付 | </th>
               </span>
             </tr>
           </thead>
@@ -88,7 +88,11 @@
                         <option value="完了">完了</option>
                     </select>--><!--valueの値がv-modlになり、v-modelは、dataのオブジェクトをとってくる-->
                 </td>
-                <td>{{ todo.id }}</td>
+                <td>
+                  <template>
+                    <date-picker @datePick="dateSet"></date-picker>
+                  </template>
+                </td>
               </span>
             </tr>
           </tbody>
@@ -108,9 +112,7 @@
         done: false,
         content:'',
         state:'',
-        btn:''
-        // selection:[]
-        // visibility: 'all'
+        btn:'',
       }
 
     },
@@ -144,7 +146,12 @@
       },
       finState(){//完了finState()したらfinbtnという名にする
         this.btn = 'finBtn';
-      }
+      },
+      dateSet(pickedDate){
+        //datePickerコンポーネントから帰ってきた値を加工してappointedDateに格納する
+        //YYYY-MM-DDで受け取るので、MM-DD形式に変換し、09などを9にするためNumberを噛ませる
+        this.appointedDate = Number(pickedDate.substr(5,2)) + "/" + Number(pickedDate.substr(8,2))
+      },
     },
     computed:{
       // filteredTodos: function () {
@@ -195,4 +202,16 @@
   font-weight: 700;
   font-size: 24px;
 }
+
+.showtable {
+    margin-left: auto;
+    margin-right: auto;
+}
+.showtable th,
+.showtable td {
+    border: 1px solid #CCCCCC;
+    padding: 5px 10px;
+    text-align: left;
+}
+
 </style>
