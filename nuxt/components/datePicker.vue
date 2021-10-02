@@ -9,7 +9,7 @@
         offset-y
         min-width="290px"
       >
-        <template v-slot:activator="{ on, attrs }">
+        <template v-slot:activator="{ on, attrs }"><!--v-tooltipからactivatorというslotを取得するという意味-->
           <v-text-field
             v-model="date"
             label="todo期限"

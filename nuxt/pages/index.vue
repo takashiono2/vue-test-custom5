@@ -29,7 +29,7 @@
           <button @click="finState">完了</button>
         </div>
     </div>
-
+<span><v-icon dense class="ma" @click="allRemove()">mdi-delete</v-icon></span>
         <table class="showtable">
           <thead>
             <tr>
@@ -97,7 +97,6 @@
             </tr>
           </tbody>
         </table>
-
   </section>
 </template>
 
@@ -112,7 +111,7 @@
         done: false,
         content:'',
         state:'',
-        btn:'',
+        btn:''
       }
 
     },
@@ -126,7 +125,7 @@
       },
       remove(id){
         if (!confirm("削除しますか？")) return;
-        this.$store.dispatch('todos/remove',id)//idはfirestoreのid
+          this.$store.dispatch('todos/remove',id)//idはfirestoreのid
       },
       toggle(todo){
         this.$store.dispatch('todos/toggle',todo)
@@ -151,6 +150,11 @@
         //datePickerコンポーネントから帰ってきた値を加工してappointedDateに格納する
         //YYYY-MM-DDで受け取るので、MM-DD形式に変換し、09などを9にするためNumberを噛ませる
         this.appointedDate = Number(pickedDate.substr(5,2)) + "/" + Number(pickedDate.substr(8,2))
+        // this.$store.dispatch('todos/add',this.appointedDate)
+      },
+      allRemove(){
+        if (!confirm("削除しますか？")) return;
+          this.$store.dispatch('todos/remove')
       },
     },
     computed:{
@@ -162,13 +166,10 @@
         switch(this.btn){
           case 'goBtn':
             return this.todos.filter(todo=>todo.state === "未完了");
-            break;
           case 'finBtn':
             return this.todos.filter(todo=>todo.state === "完了");
-            break;
           case 'allbtn':
             return this.todos;
-            break;
           default:
             return this.todos;
           }
@@ -183,7 +184,7 @@
         return this.doneTodos.filter(todo => {
           return todo.state === "完了"
         })
-      }
+      },
     },
     filters:{
       dateFilter(date){

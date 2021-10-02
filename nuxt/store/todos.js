@@ -26,7 +26,8 @@ export const actions = {
         done: false,
         created: firebase.firestore.FieldValue.serverTimestamp(),
         state: '未完了',
-        discription :discription
+        discription :'',
+        appointed_date: '',
       })
     }
   }),
@@ -34,6 +35,16 @@ export const actions = {
   remove: firestoreAction((context, id) => {
     todosRef.doc(id).delete()//doc(id)でドキュメントidを指定
   }),
+  allRemove: firestoreAction((context,id) => {
+    todosRef.onSnapshot(snapshot => {
+      snapshot.docs.forEach(doc => {
+        todosRef.doc(id).delete()
+          .catch(error => {
+              console.log(error)
+          })
+      })
+  })
+}),
   //状態変化
   changeState: firestoreAction((context, todo) => {//toggleでtodoの完了を確認する
     if(todo.state==="完了"){
