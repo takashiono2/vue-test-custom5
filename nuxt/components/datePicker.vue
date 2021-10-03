@@ -45,6 +45,7 @@
     methods:{
       datePick(){
         this.$emit('datePick',this.date)
+        console.log(this.date)
       }
     }
   }

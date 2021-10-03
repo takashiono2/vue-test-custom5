@@ -30,21 +30,32 @@
           @focusout="finishEditing"
         ></textarea>
         <button class="add-button">Add</button>
+        <template>
+          <date-picker @datePick="dateSet"></date-picker>
+          <!-- <date-picker></date-picker> -->
+        </template>
       </form>
+      {{dateSet(date)}}
     </div>
   </div>
 </section>
 </template>
 
 <script>
+import DatePicker from '~/components/datePicker.vue'
 export default {
+    components: {
+    'date-picker':DatePicker
+    },
     data: function(){
       return {
         name:'',
-        done: false,
-        content:'',
-        state:'未達',
-        discription:''
+        // done: false,
+        // content:'',
+        // state:'未完了',
+        discription:'',
+        date: this.date
+        // appointed_date: new Date().toISOString().substr(0, 10),
       }
     },
     created: function() {
@@ -52,16 +63,30 @@ export default {
     },
     methods: {
       add(){
-        this.$store.dispatch('todos/add',this.name)
+        // console.log('addボタン上'+this.dateSet(date))
+        console.log('addボタン上'+this.date)
+        // this.appointedDate = Number(this.date.substr(5,2)) + "/" + Number(this.date.substr(8,2))
+        // this.appointedDate = Number(this.appointed_date.substr(5,2)) + "/" + Number(this.appointed_date.substr(8,2))
+        // this.$store.dispatch('todos/add',this.name)
+        this.$store.dispatch('todos/add',{name: this.name,appointed_date:this.date})
         this.name = ''
-        this.$router.push('/')
       },
+      // add(){
+      //   this.$store.dispatch('todos/add',this.name)
+      //   cosole.log(this.name)
+      //   this.name = ''
+      //   this.$router.push('/')
+      // },
       startEditing() {
         this.isEditing = true
       },
       finishEditing() {
         this.isEditing = false
       },
+      dateSet(date){
+        return this.date = date
+        // console.log('dateSet関数:'+this.date)
+      }
     },
     computed:{
       todos(){
@@ -73,7 +98,7 @@ export default {
             classList.push('active')
           }
           return classList
-      }
+      },
     }
   }
 

@@ -90,9 +90,11 @@
                     </select>--><!--valueの値がv-modlになり、v-modelは、dataのオブジェクトをとってくる-->
                 </td>
                 <td>
-                  <template>
-                    <date-picker @datePick="dateSet"></date-picker>
-                  </template>
+                  {{todo.appointed_date}}
+                  <!-- <template> -->
+                    <!-- <date-picker @datePick="dateSet"></date-picker> -->
+                    <!-- <date-picker></date-picker> -->
+                  <!-- </template> -->
                 </td>
               </span>
             </tr>
@@ -112,16 +114,18 @@
         done: false,
         content:'',
         state:'',
-        btn:''
+        btn:'',
+        appointed_date:''
       }
-
     },
     created: function() {
       this.$store.dispatch('todos/init')
     },
     methods: {
       add(){
-        this.$store.dispatch('todos/add',this.name)
+        this.appointedDate = Number(pickedDate.substr(5,2)) + "/" + Number(pickedDate.substr(8,2))
+        // this.$store.dispatch('todos/add',this.name)
+        this.$store.dispatch('todos/add',{name: this.name,appointed_date:this.appointedDate})
         this.name = ''
       },
       remove(id){
@@ -146,12 +150,12 @@
       finState(){//完了finState()したらfinbtnという名にする
         this.btn = 'finBtn';
       },
-      dateSet(pickedDate){
-        //datePickerコンポーネントから帰ってきた値を加工してappointedDateに格納する
-        //YYYY-MM-DDで受け取るので、MM-DD形式に変換し、09などを9にするためNumberを噛ませる
-        this.appointedDate = Number(pickedDate.substr(5,2)) + "/" + Number(pickedDate.substr(8,2))
-        // this.$store.dispatch('todos/add',this.appointedDate)
-      },
+      // dateSet(pickedDate){
+      //   //datePickerコンポーネントから帰ってきた値を加工してappointedDateに格納する
+      //   //YYYY-MM-DDで受け取るので、MM-DD形式に変換し、09などを9にするためNumberを噛ませる
+      //   this.appointedDate = Number(pickedDate.substr(5,2)) + "/" + Number(pickedDate.substr(8,2))
+      //   // this.$store.dispatch('todos/add',this.appointedDate)
+      // },
       allRemove(){
         if (!confirm("削除しますか？")) return;
           this.$store.dispatch('todos/allRemove')
