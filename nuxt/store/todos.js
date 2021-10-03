@@ -35,16 +35,17 @@ export const actions = {
   remove: firestoreAction((context, id) => {
     todosRef.doc(id).delete()//doc(id)でドキュメントidを指定
   }),
-  allRemove: firestoreAction((context,id) => {
-    todosRef.onSnapshot(snapshot => {
-      snapshot.docs.forEach(doc => {
-        todosRef.doc(id).delete()
-          .catch(error => {
-              console.log(error)
-          })
-      })
-  })
-}),
+  allRemove: firestoreAction(async (todo) => {
+    const querySnapshot = await db.collection('todos')
+    .where('done', '==', true)
+    .get()
+    console.log(querySnapshot.size)
+    querySnapshot.forEach((todo) => {
+      todosRef.doc(todo.id).delete()
+      // console.log(todo.id)
+      // console.log(todo.id, ' => ', JSON.stringify(todo.data()))
+    })
+  }),
   //状態変化
   changeState: firestoreAction((context, todo) => {//toggleでtodoの完了を確認する
     if(todo.state==="完了"){
@@ -58,12 +59,11 @@ export const actions = {
       })
     }
     }),
-            //ステータスの更新チェックボックスの場合
-            // toggle: firestoreAction((context, todo) => {//toggleでtodoの完了を確認する
-            //   todosRef.doc(todo.id).update({
-            //     done: !todo.done
-            //   })
-            // })
+    toggle: firestoreAction((context, todo) => {//チェックボックスの更新
+      todosRef.doc(todo.id).update({
+        done: !todo.done
+      })
+    })
 }
 export const getters = {
   orderdTodos: state => {

@@ -29,11 +29,12 @@
           <button @click="finState">完了</button>
         </div>
     </div>
-<span><v-icon dense class="ma" @click="allRemove()">mdi-delete</v-icon></span>
+    <span>チェックを削除：<v-icon dense class="ma" @click="allRemove()">mdi-delete</v-icon></span>
         <table class="showtable">
           <thead>
             <tr>
               <span>
+                <th>チェック | </th>
                 <th>タスク | </th>
                 <th>状態 | </th>
                 <th>ボタン | </th>
@@ -43,10 +44,16 @@
             </tr>
           </thead>
           <tbody>
-            <!-- <tr v-for="todo in todos" :key="todo.id"> -->
             <tr v-for="todo in doneTodos" :key="todo.id">
               <span v-if="todo.created">
                 <!-- <td>{{ todo.name }}</td> -->
+                <td>
+                  <input
+                    type="checkbox"
+                    :checked ="todo.done"
+                    @change="toggle(todo)"
+                  >
+                </td>
                 <td>
                   <nuxt-link target="_blank" :to="{ name: 'users-id',params: {id: todo.id}}"
                       exact
@@ -57,18 +64,12 @@
                       active-class="link-active"
                       >{{ todo.name }}</nuxt-link> -->
                 </td>
-                  <!--チェックボックスの場合
-                    <td>
-                        <input
-                        type="checkbox"
-                        :checked ="todo.done"
-                        @change="toggle(todo)"
-                        >
-                    </td>-->
-                <!-- <td><button @click="remove(todo.id)">削除</button></td> -->
+
                 <!-- <td><button @click="remove(todo.id)">削除</button></td> -->
                 <td><v-icon dense class="ma" @click="edit(todo.id)">mdi-pencil</v-icon></td>
-                <td><v-icon dense class="ma" @click="remove(todo.id)">mdi-delete</v-icon></td>
+                <td><v-icon dense class="ma" @click="remove(todo.id)">mdi-delete</v-icon>
+                <!-- <span><v-icon dense class="ma" @click="allRemove(todo.id)">mdi-delete</v-icon></span> -->
+                </td>
                 <!-- <td><button @click="edit(todo.id)">編集</button></td> -->
                 <td>{{ todo.created.toDate() | dateFilter }}</td>
                 <td>
@@ -129,7 +130,6 @@
       },
       toggle(todo){
         this.$store.dispatch('todos/toggle',todo)
-        console.log(todo)
       },
       edit(id){
         this.$store.dispatch('todos/edit',id)
@@ -154,7 +154,7 @@
       },
       allRemove(){
         if (!confirm("削除しますか？")) return;
-          this.$store.dispatch('todos/remove')
+          this.$store.dispatch('todos/allRemove')
       },
     },
     computed:{
