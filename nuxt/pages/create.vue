@@ -53,7 +53,7 @@ export default {
         // content:'',
         // state:'未完了',
         discription:'',
-        date: this.date
+        date: this.date,
         // appointed_date: new Date().toISOString().substr(0, 10),
       }
     },

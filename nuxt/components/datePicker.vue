@@ -10,28 +10,41 @@
         min-width="290px"
       >
         <template v-slot:activator="{ on, attrs }"><!--v-tooltipからactivatorというslotを取得するという意味-->
-          <v-text-field
-            v-model="date"
-            label="todo期限"
-            prepend-inner-icon="mdi-calendar"
-            readonly
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
+          <div v-if="date!==datetodoPick && datetodoPick ">
+            <v-text-field
+              v-model="datetodoPick"
+              label="todo期限"
+              prepend-inner-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </div>
+          <div v-else>
+            <v-text-field
+              v-model="date"
+              label="todo期限"
+              prepend-inner-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </div>
         </template>
-        <v-date-picker
-         v-model="date"
-         @input="menu = false"
-         @change="datePick">
-        </v-date-picker>
+          <v-date-picker
+            v-model="date"
+            @input="menu = false"
+            @change="datePick"
+          ></v-date-picker>
       </v-menu>
-    <!-- </v-col> -->
+    <!-- </v-col> -->{{'1:'+datetodoPick}}{{'2:'+date}}
   </v-row>
 </template>
 
 <script>
   export default {
     name: 'datepicker',
+    props:['datetodoPick'],
     data () {
       return {
       date: new Date().toISOString().substr(0, 10),
@@ -45,7 +58,7 @@
     methods:{
       datePick(){
         this.$emit('datePick',this.date)
-        console.log(this.date)
+        // console.log(this.date)
       }
     }
   }

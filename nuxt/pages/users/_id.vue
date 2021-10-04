@@ -33,8 +33,8 @@
           {{todo.appointed_date}}
           {{date}}
           <template>
-            <date-picker @datePick="dateSet(todo.appointed_date)"></date-picker>
-            <!-- <date-picker></date-picker> -->
+            <!-- <date-picker @datePick="dateSet(todo.appointed_date)"></date-picker> -->
+            <date-picker :datetodoPick="todo.appointed_date"></date-picker>
           </template>
           <button class="add-button">Add</button>
         </form>
@@ -68,7 +68,8 @@
         name:'',
         discription:'',
         date: this.date,
-        appointed_date:''
+        appointed_date:'',
+        datetodoPick:''
       }
     },
     methods:{
