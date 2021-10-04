@@ -29,13 +29,12 @@
           @focusin="startEditing"
           @focusout="finishEditing"
         ></textarea>
-        <button class="add-button">Add</button>
         <template>
+          <!-- <date-picker @datePick="dateSet">{{dateSet(date)}}</date-picker> -->
           <date-picker @datePick="dateSet"></date-picker>
-          <!-- <date-picker></date-picker> -->
         </template>
+        <button class="add-button">Add</button>
       </form>
-      {{dateSet(date)}}
     </div>
   </div>
 </section>
@@ -63,13 +62,18 @@ export default {
     },
     methods: {
       add(){
-        // console.log('addボタン上'+this.dateSet(date))
-        console.log('addボタン上'+this.date)
         // this.appointedDate = Number(this.date.substr(5,2)) + "/" + Number(this.date.substr(8,2))
         // this.appointedDate = Number(this.appointed_date.substr(5,2)) + "/" + Number(this.appointed_date.substr(8,2))
         // this.$store.dispatch('todos/add',this.name)
-        this.$store.dispatch('todos/add',{name: this.name,appointed_date:this.date})
+        this.$store.dispatch('todos/add',{
+          name: this.name,
+          discription: this.discription,
+          appointed_date: this.date
+        })
         this.name = ''
+        this.discription = ''
+        this.date = ''
+        this.$router.push("/")
       },
       // add(){
       //   this.$store.dispatch('todos/add',this.name)

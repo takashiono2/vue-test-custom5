@@ -19,7 +19,7 @@ export const actions = {
     bindFirestoreRef('todos', todosRef)//バインドしたいデータとコレクションへの参照（関連付けされる）
   }),
   //追加
-  add: firestoreAction((context,{name,appointed_date}) => {
+  add: firestoreAction((context,{name,appointed_date,discription}) => {
     if(name.trim()) {
       console.log('todo.js内:'+appointed_date)
       todosRef.add({//todosRefメソッドでaddでストアに登録
@@ -27,7 +27,7 @@ export const actions = {
         done: false,
         created: firebase.firestore.FieldValue.serverTimestamp(),
         state: '未完了',
-        discription :'',
+        discription :　discription,
         appointed_date: appointed_date,
       })
     }

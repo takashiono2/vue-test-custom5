@@ -66,7 +66,7 @@
                 </td>
 
                 <!-- <td><button @click="remove(todo.id)">削除</button></td> -->
-                <td><v-icon dense class="ma" @click="edit(todo.id)">mdi-pencil</v-icon></td>
+                <!-- <td><v-icon dense class="ma" @click="edit(todo.id)">mdi-pencil</v-icon></td> -->
                 <td><v-icon dense class="ma" @click="remove(todo.id)">mdi-delete</v-icon>
                 <!-- <span><v-icon dense class="ma" @click="allRemove(todo.id)">mdi-delete</v-icon></span> -->
                 </td>
@@ -90,11 +90,11 @@
                     </select>--><!--valueの値がv-modlになり、v-modelは、dataのオブジェクトをとってくる-->
                 </td>
                 <td>
+                  {{todo.discription}}
                   {{todo.appointed_date}}
-                  <!-- <template> -->
-                    <!-- <date-picker @datePick="dateSet"></date-picker> -->
-                    <!-- <date-picker></date-picker> -->
-                  <!-- </template> -->
+                  <!-- <template>
+                    <date-picker @datePick="dateSet"></date-picker>
+                  </template> -->
                 </td>
               </span>
             </tr>
@@ -115,6 +115,7 @@
         content:'',
         state:'',
         btn:'',
+        discription:'',
         appointed_date:''
       }
     },
@@ -122,12 +123,6 @@
       this.$store.dispatch('todos/init')
     },
     methods: {
-      add(){
-        this.appointedDate = Number(pickedDate.substr(5,2)) + "/" + Number(pickedDate.substr(8,2))
-        // this.$store.dispatch('todos/add',this.name)
-        this.$store.dispatch('todos/add',{name: this.name,appointed_date:this.appointedDate})
-        this.name = ''
-      },
       remove(id){
         if (!confirm("削除しますか？")) return;
           this.$store.dispatch('todos/remove',id)//idはfirestoreのid
@@ -150,12 +145,6 @@
       finState(){//完了finState()したらfinbtnという名にする
         this.btn = 'finBtn';
       },
-      // dateSet(pickedDate){
-      //   //datePickerコンポーネントから帰ってきた値を加工してappointedDateに格納する
-      //   //YYYY-MM-DDで受け取るので、MM-DD形式に変換し、09などを9にするためNumberを噛ませる
-      //   this.appointedDate = Number(pickedDate.substr(5,2)) + "/" + Number(pickedDate.substr(8,2))
-      //   // this.$store.dispatch('todos/add',this.appointedDate)
-      // },
       allRemove(){
         if (!confirm("削除しますか？")) return;
           this.$store.dispatch('todos/allRemove')
@@ -180,10 +169,6 @@
         // return this.$store.state.todos.todos
         // return this.$store.getters['todos/orderdTodos']
       },
-      // todos() {
-      //   // return this.$store.state.todos.todos
-      //   return this.$store.getters['todos/orderdTodos']
-      // },
       remaining(){//完了の数計算処理
         return this.doneTodos.filter(todo => {
           return todo.state === "完了"
