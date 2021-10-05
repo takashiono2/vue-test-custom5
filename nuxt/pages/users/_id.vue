@@ -15,7 +15,7 @@
         active-class="link-active"
       >編集ページへ</router-link>
       <div class="form" v-for="todo in todoStates" :key="todo.id">
-        <form :class="classList" @submit.prevent ="add">
+        <form :class="classList" @submit.prevent ="addEdit">
           <input type="text"
             v-model="name"
             class="text-input"
@@ -42,6 +42,7 @@
     </div>
 
   <div>
+    <p>名前だよ:{{todoStates}}</p>
     パラメータ：{{ $route.params.id }}
     <!-- todos一覧：{{ todoStates　}} -->
     <ul v-for="todo in todoStates" :key="todo.id">
@@ -79,10 +80,18 @@
       finishEditing() {
         this.isEditing = false
       },
-      add(){
-        console.log('addボタン上'+this.date)
-        this.$store.dispatch('todos/add',{name: this.name,appointed_date:this.date})
-        this.name = ''
+      addEdit(){
+        console.log('addEdit時：'+this.name)
+        console.log('addEdit時：'+this.discription)
+        this.$store.dispatch('todos/addEdit',{
+          id: this.id,
+          name: this.name,
+          // appointed_date: this.date,
+          discription: this.discription
+          })
+        console.log('name:'+this.name)
+        console.log('discription:'+this.discription)
+        this.$router.push("/")
       },
       dateSet(appointed_date){
         return this.date = appointed_date
@@ -95,6 +104,13 @@
       id(){
         return this.$route.params.id
       },
+      // name(){
+      //   this.todos = this.$store.state('todos')
+      //   this.name = this.todos.filter((todo)=>{
+      //     return todo.name
+      //   })
+      // console.log('name計算：'+this.name)
+      // },
       todoStates(){
         this.todos = this.$store.getters['todos/orderdTodos']
         return this.todos.filter((todo)=>{

@@ -32,10 +32,27 @@ export const actions = {
       })
     }
   }),
+  //更新
+  addEdit: firestoreAction((context,{id,name,discription}) => {
+    if(name.trim() && discription.trim()){
+      todosRef.doc(id).set({//todosRefメソッドでaddでストアに登録
+        name: name,
+        discription :　discription,
+        // appointed_date: appointed_date
+      })
+      .then(function() {
+        console.log("Document successfully written!");
+      })
+      .catch(function(error) {
+        console.error("Error writing document: ", error);
+      });
+    }
+  }),
   //削除
   remove: firestoreAction((context, id) => {
     todosRef.doc(id).delete()//doc(id)でドキュメントidを指定
   }),
+  //選択削除
   allRemove: firestoreAction(async (todo) => {
     const querySnapshot = await db.collection('todos')
     .where('done', '==', true)
