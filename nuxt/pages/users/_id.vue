@@ -33,8 +33,8 @@
           {{todo.appointed_date}}
           {{date}}
           <template>
-            <!-- <date-picker @datePick="dateSet(todo.appointed_date)"></date-picker> -->
-            <date-picker :datetodoPick="todo.appointed_date"></date-picker>
+            <!-- <date-picker :datetodoPick="todo.appointed_date"></date-picker> -->
+            <date-picker @datePick="dateSet"></date-picker>
           </template>
           <button class="add-button">Add</button>
         </form>
@@ -66,11 +66,11 @@
     data(){
       return {
         todos:[],
-        name:'',
+        name: '',
         discription:'',
-        date: this.date,
+        date:'',
         appointed_date:'',
-        datetodoPick:''
+        datetodoPick: '',
       }
     },
     methods:{
@@ -80,21 +80,29 @@
       finishEditing() {
         this.isEditing = false
       },
-      addEdit(){
-        console.log('addEdit時：'+this.name)
-        console.log('addEdit時：'+this.discription)
+      addEdit() {
+        console.log('ボタン押時datetodoPick：'+ this.datetodoPick)
+        if(this.name === ""){
+          // console.log('addEdit時は空！')
+          this.name = this.todoStates[0].name
+        }
+        if(this.appointed_date === ""){
+          // console.log('appointed_date時は空！')
+          this.appointed_date = this.todoStates[0].appointed_date
+        }
+        console.log('addEdit時：'+ this.name)
         this.$store.dispatch('todos/addEdit',{
           id: this.id,
           name: this.name,
-          // appointed_date: this.date,
-          discription: this.discription
+          discription: this.discription,
+          appointed_date: this.appointed_date
           })
-        console.log('name:'+this.name)
-        console.log('discription:'+this.discription)
+          console.log('送信後appointed_date:'+this.appointed_date)
+          console.log('送信後appointed_date:'+this.todoStates[0].appointed_date)//空の時はこれ
         this.$router.push("/")
       },
-      dateSet(appointed_date){
-        return this.date = appointed_date
+      dateSet(datetodoPick){
+        return this.appointed_date = datetodoPick
       }
     },
     created: function() {
@@ -104,6 +112,9 @@
       id(){
         return this.$route.params.id
       },
+      // date(){
+      //   return this.date = new Date().toISOString().substr(0, 10)
+      // },
       // name(){
       //   this.todos = this.$store.state('todos')
       //   this.name = this.todos.filter((todo)=>{

@@ -32,12 +32,12 @@
           </div>
         </template>
           <v-date-picker
-            v-model="date"
+            v-model="datetodoPick"
             @input="menu = false"
             @change="datePick"
           ></v-date-picker>
       </v-menu>
-    <!-- </v-col> -->{{'1:'+datetodoPick}}{{'2:'+date}}
+    <!-- </v-col> -->{{'datetodoPick:'+datetodoPick}}{{'date:'+date}}
   </v-row>
 </template>
 
@@ -49,6 +49,7 @@
       return {
       date: new Date().toISOString().substr(0, 10),
       menu: false,
+      todos:this.todos
       }
     },
     created:function(){
@@ -57,9 +58,10 @@
     },
     methods:{
       datePick(){
-        this.$emit('datePick',this.date)
-        // console.log(this.date)
+        (this.datetodoPick!==this.date) ? this.$emit('datePick',this.datetodoPick) : this.$emit('datePick',this.date)
+        console.log('押した時点：'+this.date)
+        console.log('datetodoPick押した時点：'+this.datetodoPick)
       }
-    }
+    },
   }
 </script>

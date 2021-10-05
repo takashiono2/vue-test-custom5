@@ -27,18 +27,18 @@ export const actions = {
         done: false,
         created: firebase.firestore.FieldValue.serverTimestamp(),
         state: '未完了',
-        discription :　discription,
+        discription: discription,
         appointed_date: appointed_date,
       })
     }
   }),
   //更新
-  addEdit: firestoreAction((context,{id,name,discription}) => {
-    if(name.trim() && discription.trim()){
-      todosRef.doc(id).set({//todosRefメソッドでaddでストアに登録
+  addEdit: firestoreAction((context,{id,name,discription,appointed_date}) => {
+    if(name.trim()){
+      todosRef.doc(id).update({//todosRefメソッドでaddでストアに登録
         name: name,
-        discription :　discription,
-        // appointed_date: appointed_date
+        discription: discription,
+        appointed_date: appointed_date
       })
       .then(function() {
         console.log("Document successfully written!");

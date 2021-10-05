@@ -54,7 +54,7 @@ export default {
         // state:'未完了',
         discription:'',
         date: this.date,
-        // appointed_date: new Date().toISOString().substr(0, 10),
+        props:['datetodoPick'],
       }
     },
     created: function() {
@@ -70,6 +70,7 @@ export default {
           discription: this.discription,
           appointed_date: this.date
         })
+        console.log('作成時に送信されるappointed_date:'+this.date)
         this.name = ''
         this.discription = ''
         this.date = ''
@@ -88,7 +89,11 @@ export default {
         this.isEditing = false
       },
       dateSet(date){
+        // if(this.datetodoPick!=date)
+        // return this.date = this.datetodoPick
+        // if(this.datetodoPick===date)
         return this.date = date
+        // console.log('dateSet関数:'+this.datetodoPick)
         // console.log('dateSet関数:'+this.date)
       }
     },
