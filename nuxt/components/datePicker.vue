@@ -9,7 +9,7 @@
         offset-y
         min-width="290px"
       >
-        <template v-slot:activator="{ on, attrs }"><!--v-tooltipからactivatorというslotを取得するという意味-->
+        <template v-slot:activator="{ on, attrs }">
           <div v-if="date!==datetodoPick && datetodoPick ">
             <v-text-field
               v-model="datetodoPick"
@@ -47,10 +47,10 @@
     props:['datetodoPick'],
     data () {
       return {
-      date: new Date().toISOString().substr(0, 10),
-      menu: false,
-      todos:this.todos
-      }
+        date: new Date().toISOString().substr(0, 10),
+          menu: false,
+          todos:this.todos
+        }
     },
     created:function(){
       //date初期値（当日の日付）を親コンポーネントにわたすためにemit実行

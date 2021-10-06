@@ -18,14 +18,14 @@
         <input type="text"
           v-model="name"
           class="text-input"
-          placeholder="タスクを入力してください"
+          placeholder="タスクを入力してください（全角10文字以内）"
           @focusin="startEditing"
           @focusout="finishEditing"
         >
         <textarea
           v-model="discription"
           class="discription"
-          placeholder="詳細を入力してください"
+          placeholder="詳細を入力してください（全角50文字以内）"
           @focusin="startEditing"
           @focusout="finishEditing"
         ></textarea>
@@ -55,12 +55,26 @@ export default {
         discription:'',
         date: this.date,
         props:['datetodoPick'],
+        errors:[]
       }
     },
     created: function() {
       this.$store.dispatch('todos/init')
     },
+    watch: {
+      name(name) {
+        this.name = this.charaLimit(name);//charaLimitに入力文字が入ってくるものをv-modelのthis.nameとし監視
+      },
+      discription(discription){
+        if (discription.match(/^[A-Za-z0-9]*$/)){
+          alert('半角は入力できません。全角にしてください。');
+        }
+      }
+    },
     methods: {
+      charaLimit(name) {
+        return name.length > 10 ? name.slice(0, -1) : name;//nameが5文字以上になったら、追加文字を削除していく
+      },
       add(){
         // this.appointedDate = Number(this.date.substr(5,2)) + "/" + Number(this.date.substr(8,2))
         // this.appointedDate = Number(this.appointed_date.substr(5,2)) + "/" + Number(this.appointed_date.substr(8,2))
