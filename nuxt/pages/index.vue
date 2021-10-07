@@ -1,17 +1,13 @@
 <template>
   <section class="container">
-      <nuxt-link target="_blank" to='/'
+      <nuxt-link to='/'
       exact
       active-class="link-active"
       >ホームへ</nuxt-link> |
-      <nuxt-link target="_blank" to='/create'
+      <nuxt-link to='/create'
       exact
       active-class="link-active"
       >作成ページへ</nuxt-link> |
-      <nuxt-link target="_blank" to='/edit'
-      exact
-      active-class="link-active"
-      >編集ページへ</nuxt-link>
     <div>
       <span class="todo-count">
         <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
@@ -24,9 +20,9 @@
           </form>
         </div> -->
         <div>
-          <button @click="allState">全て</button>
-          <button @click="goState">未完了</button>
-          <button @click="finState">完了</button>
+          <span><v-btn color="info" @click="allState">全て</v-btn></span>
+          <span><v-btn color="info" @click="goState">未完了</v-btn></span>
+          <span><v-btn color="info" @click="finState">完了</v-btn></span>
         </div>
     </div>
     <span>チェックを削除：<v-icon dense class="ma" @click="allRemove()">mdi-delete</v-icon></span>
@@ -36,10 +32,10 @@
               <span>
                 <th>チェック | </th>
                 <th>タスク | </th>
-                <th>状態 | </th>
-                <th>ボタン | </th>
                 <th>登録日時 | </th>
-                <th>日付 | </th>
+                <th>ボタン | </th>
+                <th>状態 | </th>
+                <th>終了予定日</th>
               </span>
             </tr>
           </thead>
@@ -55,14 +51,15 @@
                   >
                 </td>
                 <td>
-                  <nuxt-link target="_blank" :to="{ name: 'users-id',params: {id: todo.id}}"
+                  <nuxt-link to='/show'
                       exact
                       active-class="link-active"
                       >{{ todo.name }}</nuxt-link>
-                  <!-- <nuxt-link target="_blank" :to="{ name: 'users-id',params: {id: todo.id}}"
+                  <nuxt-link :to="{ name: 'users-id',params: {id: todo.id}}"
                       exact
                       active-class="link-active"
-                      >{{ todo.name }}</nuxt-link> -->
+                  ><v-icon dense class="ma" @click="editBtn(todo.id)">mdi-pencil</v-icon>
+                  </nuxt-link>
                 </td>
 
                 <!-- <td><button @click="remove(todo.id)">削除</button></td> -->
@@ -70,7 +67,6 @@
                 <td><v-icon dense class="ma" @click="remove(todo.id)">mdi-delete</v-icon>
                 <!-- <span><v-icon dense class="ma" @click="allRemove(todo.id)">mdi-delete</v-icon></span> -->
                 </td>
-                <!-- <td><button @click="edit(todo.id)">編集</button></td> -->
                 <td>{{ todo.created.toDate() | dateFilter }}</td>
                 <td>
                     <button class="button"
@@ -91,6 +87,8 @@
                 </td>
                 <td>
                   {{todo.discription}}
+                </td>
+                <td>
                   {{todo.appointed_date}}
                   <!-- <template>
                     <date-picker @datePick="dateSet"></date-picker>
@@ -105,6 +103,7 @@
 
 <script>
   import moment from 'moment'
+
   export default {
     layout: 'default',
     data: function(){
@@ -130,8 +129,11 @@
       toggle(todo){
         this.$store.dispatch('todos/toggle',todo)
       },
-      edit(id){
-        this.$store.dispatch('todos/edit',id)
+      // edit(id){
+      //   this.$store.dispatch('todos/edit',id)
+      // },
+      editBtn(id){
+        this.$router.push({ name: 'users-id',params: {id: this.id}});
       },
       changeState: function(todo){
         this.$store.dispatch('todos/changeState',todo)
@@ -149,6 +151,12 @@
         if (!confirm("削除しますか？")) return;
           this.$store.dispatch('todos/allRemove')
       },
+      // show() {
+      //   this.$modal.show("modal-content");
+      // },
+      // hide() {
+      //   this.$modal.hide("modal-content");
+      // }
     },
     computed:{
       // filteredTodos: function () {

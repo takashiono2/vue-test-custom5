@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    編集ページ
+    詳細ページ
     <div>
       <router-link to='/'
         exact
@@ -38,7 +38,7 @@
     </div>
 
   <div>
-    <p>名前:{{todoStates}}</p>
+    <p>名前だよ:{{todoStates}}</p>
     パラメータ：{{ $route.params.id }}
     <!-- todos一覧：{{ todoStates　}} -->
     <ul v-for="todo in todoStates" :key="todo.id">

@@ -29,7 +29,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '@/plugins/vee-validate'}//vee-validate.jsを読み込むために追加
+    { src: '@/plugins/vee-validate'},//vee-validate.jsを読み込むために追加
+    { src: '~/plugins/modal.js'}//modal.jsを読み込むために追加
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -64,4 +65,5 @@ export default {
     ],//vee-validate.jsを読み込むために追加
     extend(config, ctx) {}//vee-validate.jsを読み込むために追加
   },
+
 }

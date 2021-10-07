@@ -9,10 +9,6 @@
       exact
       active-class="link-active"
     >作成ページへ</router-link> |
-    <router-link to='/edit'
-      exact
-      active-class="link-active"
-    >編集ページへ</router-link>
     <div class="form">
       <form :class="classList" @submit.prevent ="add">
         <validation-provider v-slot="{ errors }" rules="required" name="タスク"><!--エラーメッセージ-->
