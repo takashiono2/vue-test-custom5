@@ -57,7 +57,7 @@
 </template>
 
 <script>
-  import DatePicker from '~/components/datePicker.vue'
+  import DatePicker from '~/components/DatePicker.vue'
   export default {
     layout: 'default',
     components: {

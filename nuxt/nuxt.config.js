@@ -2,6 +2,7 @@ const pkg = require('./package')
 const webpack = require('webpack')
 
 export default {
+  mode: 'universal',//vee-validate.jsを読み込むために追加
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -28,6 +29,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '@/plugins/vee-validate'}//vee-validate.jsを読み込むために追加
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -56,6 +58,10 @@ export default {
       new webpack.ProvidePlugin({
         '_': 'lodash'
       })
-    ]
+    ],
+    transpile: [
+      "vee-validate/dist/rules"
+    ],//vee-validate.jsを読み込むために追加
+    extend(config, ctx) {}//vee-validate.jsを読み込むために追加
   },
 }

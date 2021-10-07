@@ -15,6 +15,7 @@
     >編集ページへ</router-link>
     <div class="form">
       <form :class="classList" @submit.prevent ="add">
+        <validation-provider v-slot="{ errors }" rules="required" name="タスク"><!--エラーメッセージ-->
         <input type="text"
           v-model="name"
           class="text-input"
@@ -22,6 +23,8 @@
           @focusin="startEditing"
           @focusout="finishEditing"
         >
+        <p v-show="errors.length" class="errorname">{{ errors[0] }}</p><!--エラーメッセージ-->
+        </validation-provider><!--エラーメッセージ-->
         <textarea
           v-model="discription"
           class="discription"
@@ -41,7 +44,7 @@
 </template>
 
 <script>
-import DatePicker from '~/components/datePicker.vue'
+import DatePicker from '~/components/DatePicker.vue'
 export default {
     components: {
     'date-picker':DatePicker
@@ -66,8 +69,9 @@ export default {
         this.name = this.charaLimit(name);//charaLimitに入力文字が入ってくるものをv-modelのthis.nameとし監視
       },
       discription(discription){
-        if (discription.match(/^[A-Za-z0-9]*$/)){
-          alert('半角は入力できません。全角にしてください。');
+        // if (discription.match(/^[A-Za-z0-9]*$/)|| (discription.search(/^[A-Za-z0-9]*$/) !== -1)){
+        if(discription.search(/^[A-Za-z0-9]*$/) !== -1){
+          alert('半角は入力できません。全角にしてください。')
         }
       }
     },
@@ -79,6 +83,7 @@ export default {
         // this.appointedDate = Number(this.date.substr(5,2)) + "/" + Number(this.date.substr(8,2))
         // this.appointedDate = Number(this.appointed_date.substr(5,2)) + "/" + Number(this.appointed_date.substr(8,2))
         // this.$store.dispatch('todos/add',this.name)
+        if(!this.name){alert("タスクが未入力です"); return}
         this.$store.dispatch('todos/add',{
           name: this.name,
           discription: this.discription,
@@ -187,6 +192,13 @@ textarea.discription{
 
 .add-button:active {
   background-color: #00d78f;
+}
+
+p.errorname{
+  color: red;
+  margin-bottom: 0px;
+  font-size: 0.8em;
+  text-align: right;
 }
 
 /*
