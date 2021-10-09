@@ -128,7 +128,15 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+.link-active{
+  color: rgba(0,0,0,0.3);
+}
+.container{
+  font-family: "Noto Sans Japanese", "Noto Sans", 'system-ui', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
 form input{
   height: 1.6em;
   width: 200px;

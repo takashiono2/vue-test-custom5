@@ -12,43 +12,29 @@
       >作成ページへ</router-link> |
       <div class="form" v-for="todo in todoStates" :key="todo.id">
         <form :class="classList" @submit.prevent ="addEdit">
-          <input type="text"
+          <input type="text" disabled
             v-model="name"
             class="text-input"
             :placeholder="todo.name"
             @focusin="startEditing"
             @focusout="finishEditing"
           >
-          <textarea
+          <textarea disabled
             v-model="discription"
             class="discription"
             :placeholder="todo.discription"
             @focusin="startEditing"
             @focusout="finishEditing"
           ></textarea>
-          {{todo.appointed_date}}
-          {{date}}
+          <!-- {{todo.appointed_date}}
+          {{date}} -->
           <template>
             <!-- <date-picker :datetodoPick="todo.appointed_date"></date-picker> -->
             <date-picker @datePick="dateSet"></date-picker>
           </template>
-          <button class="add-button">Add</button>
         </form>
       </div>
     </div>
-
-  <div>
-    <p>名前だよ:{{todoStates}}</p>
-    パラメータ：{{ $route.params.id }}
-    <!-- todos一覧：{{ todoStates　}} -->
-    <ul v-for="todo in todoStates" :key="todo.id">
-      <li>
-        <p>名前:{{ todo.name }}</p>
-        <p>ID:{{todo.id}}</p>
-        <p>状態：{{todoStates}}</p>
-      </li>
-    </ul>
-  </div>
   </section>
 </template>
 
@@ -189,7 +175,7 @@ form input{
 textarea.discription{
   height: 300px;
 }
-
+/*
 .add-button {
   margin-top: 15px;
   padding: 15px 18px;
@@ -215,5 +201,5 @@ textarea.discription{
 
 .add-button:active {
   background-color: #00d78f;
-}
+} */
 </style>

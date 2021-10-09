@@ -37,7 +37,7 @@
             @change="datePick"
           ></v-date-picker>
       </v-menu>
-    <!-- </v-col> -->{{'datetodoPick:'+datetodoPick}}{{'date:'+date}}
+    <!-- </v-col>{{'datetodoPick:'+datetodoPick}}{{'date:'+date}}-->
   </v-row>
 </template>
 

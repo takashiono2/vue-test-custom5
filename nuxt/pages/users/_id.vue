@@ -26,8 +26,8 @@
             @focusin="startEditing"
             @focusout="finishEditing"
           ></textarea>
-          {{todo.appointed_date}}
-          {{date}}
+          <!-- {{todo.appointed_date}}
+          {{date}} -->
           <template>
             <!-- <date-picker :datetodoPick="todo.appointed_date"></date-picker> -->
             <date-picker @datePick="dateSet"></date-picker>
@@ -37,10 +37,10 @@
       </div>
     </div>
 
-  <div>
+  <!-- <div>
     <p>名前:{{todoStates}}</p>
     パラメータ：{{ $route.params.id }}
-    <!-- todos一覧：{{ todoStates　}} -->
+    todos一覧：{{ todoStates　}}
     <ul v-for="todo in todoStates" :key="todo.id">
       <li>
         <p>名前:{{ todo.name }}</p>
@@ -48,7 +48,7 @@
         <p>状態：{{todoStates}}</p>
       </li>
     </ul>
-  </div>
+  </div> -->
   </section>
 </template>
 
@@ -147,7 +147,16 @@
 
 </script>
 
-<style>
+<style scoped>
+.link-active{
+  color: rgba(0,0,0,0.3);
+}
+.container{
+  font-family: "Noto Sans Japanese", "Noto Sans", 'system-ui', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+}
+
 form input{
   height: 1.6em;
   width: 200px;

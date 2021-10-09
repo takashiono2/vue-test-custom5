@@ -32,9 +32,11 @@
               <span>
                 <th>チェック | </th>
                 <th>タスク | </th>
+                <th>削除 | </th>
                 <th>登録日時 | </th>
                 <th>ボタン | </th>
                 <th>状態 | </th>
+                <th>メモ | </th>
                 <th>終了予定日</th>
               </span>
             </tr>
@@ -51,7 +53,7 @@
                   >
                 </td>
                 <td>
-                  <nuxt-link to='/show'
+                  <nuxt-link :to="{ name: 'show-id',params: {id: todo.id}}"
                       exact
                       active-class="link-active"
                       >{{ todo.name }}</nuxt-link>
@@ -191,7 +193,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 .link-active{
   color: rgba(0,0,0,0.3);
 }
