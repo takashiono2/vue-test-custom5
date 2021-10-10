@@ -164,15 +164,13 @@
           this.$store.dispatch('todos/allRemove')
       },
       countNum(){
-          console.log(this.state[this.count]+this.count)
           if(this.state[this.count]){
             this.count > 2 ? this.count = 0 : this.count++
-            return this.count
+              if(this.count == this.state.length){
+                return this.count = 0
+              }
           }
-          if(!this.state[this.count]){
-            return this.count = count = 0
-          }
-        }
+      }
       // show() {
       //   this.$modal.show("modal-content");
       // },
