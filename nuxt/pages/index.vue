@@ -1,106 +1,111 @@
 <template>
-  <section class="container">
-      <nuxt-link to='/'
-      exact
-      active-class="link-active"
-      >ホームへ</nuxt-link> |
-      <nuxt-link to='/create'
-      exact
-      active-class="link-active"
-      >作成ページへ</nuxt-link> |
-    <div>
-      <span class="todo-count">
-        <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
-        <strong>{{ remaining.length }}件</strong>完了/合計{{doneTodos.length}}件
-      </span>
-        <!-- <div class="form">
-          <form v-on:submit.prevent ="add">
-            <input v-model="name" placeholder="タスクを入力してください">
-            <button>Add</button>
-          </form>
-        </div> -->
-        <div>
-          <span><v-btn color="info" @click="allState">全て</v-btn></span>
-          <span><v-btn color="info" @click="goState">未完了</v-btn></span>
-          <span><v-btn color="info" @click="finState">完了</v-btn></span>
-        </div>
-    </div>
-    <span>チェックを削除：<v-icon dense class="ma" @click="allRemove()">mdi-delete</v-icon></span>
-        <table class="showtable">
-          <thead>
-            <tr>
-              <span>
-                <th>チェック | </th>
-                <th>タスク | </th>
-                <th>削除 | </th>
-                <th>登録日時 | </th>
-                <th>ボタン | </th>
-                <th>状態 | </th>
-                <th>メモ | </th>
-                <th>終了予定日</th>
-              </span>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="todo in doneTodos" :key="todo.id">
-              <span v-if="todo.created">
-                <!-- <td>{{ todo.name }}</td> -->
-                <td>
-                  <input
-                    type="checkbox"
-                    :checked ="todo.done"
-                    @change="toggle(todo)"
-                  >
-                </td>
-                <td>
-                  <nuxt-link :to="{ name: 'show-id',params: {id: todo.id}}"
-                      exact
-                      active-class="link-active"
-                      >{{ todo.name }}</nuxt-link>
-                  <nuxt-link :to="{ name: 'users-id',params: {id: todo.id}}"
-                      exact
-                      active-class="link-active"
-                  ><v-icon dense class="ma" @click="editBtn(todo.id)">mdi-pencil</v-icon>
-                  </nuxt-link>
-                </td>
+  <!-- <v-main> -->
+    <section class="container">
+        <nuxt-link to='/'
+        exact
+        active-class="link-active"
+        >ホームへ</nuxt-link> |
+        <nuxt-link to='/create'
+        exact
+        active-class="link-active"
+        >作成ページへ</nuxt-link> |
+      <div>
+        <span class="todo-count">
+          <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
+          <strong>{{ remaining.length }}件</strong>完了/合計{{doneTodos.length}}件
+        </span>
+          <!-- <div class="form">
+            <form v-on:submit.prevent ="add">
+              <input v-model="name" placeholder="タスクを入力してください">
+              <button>Add</button>
+            </form>
+          </div> -->
+          <div>
+            <span><v-btn outlined @click="allState">全て</v-btn></span>
+            <span><v-btn outlined color="red" @click="goState">未完了</v-btn></span>
+            <span><v-btn outlined color="blue" @click="finState">完了</v-btn></span>
+            <span><v-btn outlined color="green" >作業中</v-btn></span>
+          </div>
+      </div>
+      <span>チェックを削除：<v-icon dense class="ma" @click="allRemove()">mdi-delete</v-icon></span>
+          <table class="showtable">
+            <thead>
+              <tr>
+                <span>
+                  <th>チェック | </th>
+                  <th>タスク | </th>
+                  <th>削除 | </th>
+                  <th>登録日時 | </th>
+                  <th>ボタン | </th>
+                  <th>状態 | </th>
+                  <th>メモ | </th>
+                  <th>終了予定日</th>
+                </span>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="todo in doneTodos" :key="todo.id">
+                <span v-if="todo.created">
+                  <!-- <td>{{ todo.name }}</td> -->
+                  <td>
+                    <input
+                      type="checkbox"
+                      :checked ="todo.done"
+                      @change="toggle(todo)"
+                    >
+                  </td>
+                  <td>
+                    <nuxt-link :to="{ name: 'show-id',params: {id: todo.id}}"
+                        exact
+                        active-class="link-active"
+                        >{{ todo.name }}</nuxt-link>
+                    <nuxt-link :to="{ name: 'users-id',params: {id: todo.id}}"
+                        exact
+                        active-class="link-active"
+                    ><v-icon dense class="ma" @click="editBtn(todo.id)">mdi-pencil</v-icon>
+                    </nuxt-link>
+                  </td>
 
-                <!-- <td><button @click="remove(todo.id)">削除</button></td> -->
-                <!-- <td><v-icon dense class="ma" @click="edit(todo.id)">mdi-pencil</v-icon></td> -->
-                <td><v-icon dense class="ma" @click="remove(todo.id)">mdi-delete</v-icon>
-                <!-- <span><v-icon dense class="ma" @click="allRemove(todo.id)">mdi-delete</v-icon></span> -->
-                </td>
-                <td>{{ todo.created.toDate() | dateFilter }}</td>
-                <td>
-                    <button class="button"
-                      v-bind:class="{
-                        'button--yet':todo.state == '未完了',
-                        'button--done':todo.state == '完了'}"
-                      @click="changeState(todo)">
-                      {{ todo.state }}
-                    </button>
-                   <!--<span>{{ selection[todo.id] }}</span>
-                    <span>{{ todo.state }}</span>
-                    <select v-model="selection[todo.id]" @change="toggle(todo)">
-                        <option disabled value="">選択して下さい</option>
-                        <option value="未設定">未設定</option>
-                        <option value="作業中">作業中</option>
-                        <option value="完了">完了</option>
-                    </select>--><!--valueの値がv-modlになり、v-modelは、dataのオブジェクトをとってくる-->
-                </td>
-                <td>
-                  {{todo.discription}}
-                </td>
-                <td>
-                  {{todo.appointed_date}}
-                  <!-- <template>
-                    <date-picker @datePick="dateSet"></date-picker>
-                  </template> -->
-                </td>
-              </span>
-            </tr>
-          </tbody>
-        </table>
-  </section>
+                  <!-- <td><button @click="remove(todo.id)">削除</button></td> -->
+                  <!-- <td><v-icon dense class="ma" @click="edit(todo.id)">mdi-pencil</v-icon></td> -->
+                  <td><v-icon dense class="ma" @click="remove(todo.id)">mdi-delete</v-icon>
+                  <!-- <span><v-icon dense class="ma" @click="allRemove(todo.id)">mdi-delete</v-icon></span> -->
+                  </td>
+                  <td>{{ todo.created.toDate() | dateFilter }}</td>
+                  <td>
+                      <v-btn @click="countNum">{{state[count]}}</v-btn>
+<!-- <v-btn outlined class="button"
+  v-bind:class="{
+    'button--yet':todo.state == '未完了',
+    'button--done':todo.state == '完了',
+    }"
+  @click="changeState(todo)">
+  {{ todo.state }}
+</v-btn> -->
+                    <!--<span>{{ selection[todo.id] }}</span>
+                      <span>{{ todo.state }}</span>
+                      <select v-model="selection[todo.id]" @change="toggle(todo)">
+                          <option disabled value="">選択して下さい</option>
+                          <option value="未設定">未設定</option>
+                          <option value="作業中">作業中</option>
+                          <option value="完了">完了</option>
+                      </select>--><!--valueの値がv-modlになり、v-modelは、dataのオブジェクトをとってくる-->
+                  </td>
+                  <td>
+                    {{todo.discription}}
+                  </td>
+                  <td>
+                    {{todo.appointed_date}}
+                    <!-- <template>
+                      <date-picker @datePick="dateSet"></date-picker>
+                    </template> -->
+                  </td>
+                </span>
+              </tr>
+            </tbody>
+          </table>
+    </section>
+  <!-- </v-main> -->
 </template>
 
 <script>
@@ -114,10 +119,15 @@
         name:'',
         done: false,
         content:'',
-        state:'',
+        state: [
+          "未完了",
+          "処理中",
+          "完了"
+        ],
         btn:'',
         discription:'',
-        appointed_date:''
+        appointed_date:'',
+        count: 0
       }
     },
     created: function() {
@@ -153,6 +163,16 @@
         if (!confirm("削除しますか？")) return;
           this.$store.dispatch('todos/allRemove')
       },
+      countNum(){
+          console.log(this.state[this.count]+this.count)
+          if(this.state[this.count]){
+            this.count > 2 ? this.count = 0 : this.count++
+            return this.count
+          }
+          if(!this.state[this.count]){
+            return this.count = count = 0
+          }
+        }
       // show() {
       //   this.$modal.show("modal-content");
       // },
@@ -198,6 +218,7 @@
   color: rgba(0,0,0,0.3);
 }
 .container{
+  padding-top: 0px;
   font-family: "Noto Sans Japanese", "Noto Sans", 'system-ui', sans-serif;
   font-weight: 700;
   font-size: 24px;
@@ -213,5 +234,14 @@
     padding: 5px 10px;
     text-align: left;
 }
+
+.button--yet{
+  color: red
+}
+
+.button--done{
+  color: blue
+}
+
 
 </style>

@@ -7,13 +7,16 @@
       <v-toolbar-items>
         <v-menu offset-y max-width="200">
           <template v-slot:activator="{on}">
-    <v-btn rounded
-      class="mr-5"
-    >
-      <v-icon dark v-on="on" class="mr-5">
-        mdi-format-list-bulleted-square
-      </v-icon>
-    </v-btn>
+            <v-btn
+              text
+              rounded
+              fab
+              class="mr-5"
+            >
+              <v-icon v-on="on">
+                mdi-format-list-bulleted-square
+              </v-icon>
+            </v-btn>
             <!-- <v-icon v-on="on" class="mr-5">mdi-menu</v-icon> -->
           </template>
           <v-list>

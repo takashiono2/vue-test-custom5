@@ -2,7 +2,9 @@
   <v-app id="app">
     <div id="contents">
       <Header />
-      <Nuxt />
+      <v-main>
+        <Nuxt />
+      </v-main>
     </div>
   </v-app>
 </template>
