@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app-bar color="primary" dark app clipped-left><!--clippedあると、ナビバーを巻き込まない-->
-      <v-toolbar-title>Todoリスト</v-toolbar-title>
+      <v-toolbar-title style="cursor: pointer" @click="$router.push('/')" >Todoリスト</v-toolbar-title>
       <v-spacer />
 
       <v-toolbar-items>
@@ -24,7 +24,7 @@
               <v-list-item-content>
                 <v-toolbar-items
                   v-for="item in items"
-                  :key="item"
+                  :key="item.title"
                    class="ma-5 text-right"
                 >
                   <v-icon>{{item.icon}}</v-icon>

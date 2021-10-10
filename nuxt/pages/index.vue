@@ -10,21 +10,14 @@
         active-class="link-active"
         >作成ページへ</nuxt-link> |
       <div>
-        <span class="todo-count">
-          <!-- <strong>{{ remaining }}</strong> {{ remaining | pluralize }} 未完了 -->
+        <span>
           <strong>{{ remaining.length }}件</strong>完了/合計{{doneTodos.length}}件
         </span>
-          <!-- <div class="form">
-            <form v-on:submit.prevent ="add">
-              <input v-model="name" placeholder="タスクを入力してください">
-              <button>Add</button>
-            </form>
-          </div> -->
           <div>
             <span><v-btn outlined @click="allState">全て</v-btn></span>
             <span><v-btn outlined color="red" @click="goState">未完了</v-btn></span>
+            <span><v-btn outlined color="green" @click="doState">作業中</v-btn></span>
             <span><v-btn outlined color="blue" @click="finState">完了</v-btn></span>
-            <span><v-btn outlined color="green" >作業中</v-btn></span>
           </div>
       </div>
       <span>チェックを削除：<v-icon dense class="ma" @click="allRemove()">mdi-delete</v-icon></span>
@@ -73,7 +66,16 @@
                   </td>
                   <td>{{ todo.created.toDate() | dateFilter }}</td>
                   <td>
-                      <v-btn @click="countNum">{{state[count]}}</v-btn>
+                    <v-btn
+                      outlined
+                      :class ="{
+                        'button--yet':todo.state == '未完了',
+                        'button--do':todo.state == '作業中',
+                        'button--done':todo.state == '完了',
+                      }"
+                      @click="changeState(todo.state,todo.id)"
+                    >{{todo.state}}
+                    </v-btn>
 <!-- <v-btn outlined class="button"
   v-bind:class="{
     'button--yet':todo.state == '未完了',
@@ -119,15 +121,10 @@
         name:'',
         done: false,
         content:'',
-        state: [
-          "未完了",
-          "処理中",
-          "完了"
-        ],
+        state: [],
         btn:'',
         discription:'',
-        appointed_date:'',
-        count: 0
+        appointed_date:''
       }
     },
     created: function() {
@@ -147,8 +144,8 @@
       editBtn(id){
         this.$router.push({ name: 'users-id',params: {id: this.id}});
       },
-      changeState: function(todo){
-        this.$store.dispatch('todos/changeState',todo)
+      changeState(state,id){
+        this.$store.dispatch('todos/changeState',{state,id})
       },
       allState(){//全表示ボタンallState()したらallbtnという名にする
         this.btn = 'allBtn';
@@ -156,27 +153,16 @@
       goState(){//未完了ボタンgoState()したらgobtnという名にする
         this.btn = 'goBtn';
       },
+      doState(){//未完了ボタンgoState()したらgobtnという名にする
+        this.btn = 'doBtn';
+      },
       finState(){//完了finState()したらfinbtnという名にする
         this.btn = 'finBtn';
       },
       allRemove(){
         if (!confirm("削除しますか？")) return;
           this.$store.dispatch('todos/allRemove')
-      },
-      countNum(){
-          if(this.state[this.count]){
-            this.count > 2 ? this.count = 0 : this.count++
-              if(this.count == this.state.length){
-                return this.count = 0
-              }
-          }
       }
-      // show() {
-      //   this.$modal.show("modal-content");
-      // },
-      // hide() {
-      //   this.$modal.hide("modal-content");
-      // }
     },
     computed:{
       // filteredTodos: function () {
@@ -187,6 +173,8 @@
         switch(this.btn){
           case 'goBtn':
             return this.todos.filter(todo=>todo.state === "未完了");
+          case 'doBtn':
+            return this.todos.filter(todo=>todo.state === "作業中");
           case 'finBtn':
             return this.todos.filter(todo=>todo.state === "完了");
           case 'allbtn':
@@ -194,8 +182,6 @@
           default:
             return this.todos;
           }
-        // return this.$store.state.todos.todos
-        // return this.$store.getters['todos/orderdTodos']
       },
       remaining(){//完了の数計算処理
         return this.doneTodos.filter(todo => {
@@ -235,6 +221,10 @@
 
 .button--yet{
   color: red
+}
+
+.button--do{
+  color: green
 }
 
 .button--done{
