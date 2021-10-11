@@ -1,11 +1,11 @@
 <template>
   <!-- <v-main> -->
     <section class="container">
-        <nuxt-link to='/'
+        <nuxt-link to='/todos'
         exact
         active-class="link-active"
         >ホームへ</nuxt-link> |
-        <nuxt-link to='/create'
+        <nuxt-link to='/todos/create'
         exact
         active-class="link-active"
         >作成ページへ</nuxt-link> |
@@ -52,7 +52,7 @@
                         exact
                         active-class="link-active"
                         >{{ todo.name }}</nuxt-link>
-                    <nuxt-link :to="{ name: 'users-id',params: {id: todo.id}}"
+                    <nuxt-link :to="{ name: 'todos-id',params: {id: todo.id}}"
                         exact
                         active-class="link-active"
                     ><v-icon dense class="ma" @click="editBtn(todo.id)">mdi-pencil</v-icon>
@@ -142,7 +142,7 @@
       //   this.$store.dispatch('todos/edit',id)
       // },
       editBtn(id){
-        this.$router.push({ name: 'users-id',params: {id: this.id}});
+        this.$router.push({ name: 'todos-id',params: {id: id}});
       },
       changeState(state,id){
         this.$store.dispatch('todos/changeState',{state,id})

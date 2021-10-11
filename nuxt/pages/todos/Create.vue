@@ -1,33 +1,36 @@
 <template>
 <section class="container">
   <div>
-    <router-link to='/'
+    <router-link to='/todos'
       exact
       active-class="link-active"
     >ホームへ</router-link> |
-    <router-link to='/create'
+    <router-link to='/todos/create'
       exact
       active-class="link-active"
     >作成ページへ</router-link> |
     <div class="form">
       <form :class="classList" @submit.prevent ="add">
-        <validation-provider v-slot="{ errors }" rules="required" name="タスク"><!--エラーメッセージ-->
-        <input type="text"
-          v-model="name"
-          class="text-input"
-          placeholder="タスクを入力してください（全角10文字以内）"
-          @focusin="startEditing"
-          @focusout="finishEditing"
-        >
+        <validation-provider v-slot="{ errors }" rules="required|length:10" name="タスク"><!--エラーメッセージ-->
+          <input type="text"
+            v-model="name"
+            class="text-input"
+            placeholder="タスクを入力してください（10文字以内）"
+            @focusin="startEditing"
+            @focusout="finishEditing"
+          >
         <p v-show="errors.length" class="errorname">{{ errors[0] }}</p><!--エラーメッセージ-->
         </validation-provider><!--エラーメッセージ-->
-        <textarea
-          v-model="discription"
-          class="discription"
-          placeholder="詳細を入力してください（全角50文字以内）"
-          @focusin="startEditing"
-          @focusout="finishEditing"
-        ></textarea>
+        <validation-provider v-slot="{ errors }" rules="length:50" name="詳細">
+          <textarea
+            v-model="discription"
+            class="discription"
+            placeholder="詳細を入力してください（50文字以内）"
+            @focusin="startEditing"
+            @focusout="finishEditing"
+          ></textarea>
+        <p v-show="errors.length" class="errorname">{{ errors[0] }}</p><!--エラーメッセージ-->
+        </validation-provider><!--エラーメッセージ-->
         <template>
           <!-- <date-picker @datePick="dateSet">{{dateSet(date)}}</date-picker> -->
           <date-picker @datePick="dateSet"></date-picker>
@@ -65,15 +68,15 @@ export default {
         this.name = this.charaLimit(name);//charaLimitに入力文字が入ってくるものをv-modelのthis.nameとし監視
       },
       discription(discription){
-        // if (discription.match(/^[A-Za-z0-9]*$/)|| (discription.search(/^[A-Za-z0-9]*$/) !== -1)){
-        if(discription.search(/^[A-Za-z0-9]*$/) !== -1){
-          alert('半角は入力できません。全角にしてください。')
-        }
+        this.discription = this.charaLimit(discription);
       }
     },
     methods: {
       charaLimit(name) {
-        return name.length > 10 ? name.slice(0, -1) : name;//nameが5文字以上になったら、追加文字を削除していく
+        return name.length > 11 ? name.slice(0, -1) : name;//nameが10文字以上になったら、追加文字を削除していく
+      },
+      charaLimit(discription) {
+        return discription.length > 51 ? discription.slice(0, -1) : discription;//50文字以上になったら、追加文字を削除していく
       },
       add(){
         // this.appointedDate = Number(this.date.substr(5,2)) + "/" + Number(this.date.substr(8,2))
@@ -89,14 +92,8 @@ export default {
         this.name = ''
         this.discription = ''
         this.date = ''
-        this.$router.push("/")
+        this.$router.push("/todos")
       },
-      // add(){
-      //   this.$store.dispatch('todos/add',this.name)
-      //   cosole.log(this.name)
-      //   this.name = ''
-      //   this.$router.push('/')
-      // },
       startEditing() {
         this.isEditing = true
       },
@@ -104,12 +101,7 @@ export default {
         this.isEditing = false
       },
       dateSet(date){
-        // if(this.datetodoPick!=date)
-        // return this.date = this.datetodoPick
-        // if(this.datetodoPick===date)
         return this.date = date
-        // console.log('dateSet関数:'+this.datetodoPick)
-        // console.log('dateSet関数:'+this.date)
       }
     },
     computed:{
@@ -202,7 +194,7 @@ textarea.discription{
 p.errorname{
   color: red;
   margin-bottom: 0px;
-  font-size: 0.8em;
+  font-size: 0.6em;
   text-align: right;
 }
 

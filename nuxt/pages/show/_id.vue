@@ -2,11 +2,11 @@
   <section class="container">
     詳細ページ
     <div>
-      <router-link to='/'
+      <router-link to='/todos'
         exact
         active-class="link-active"
       >ホームへ</router-link> |
-      <router-link to='/create'
+      <router-link to='/todos/create'
         exact
         active-class="link-active"
       >作成ページへ</router-link> |

@@ -2,11 +2,11 @@
   <section class="container">
     編集ページ
     <div>
-      <router-link to='/'
+      <router-link to='/todos'
         exact
         active-class="link-active"
       >ホームへ</router-link> |
-      <router-link to='/create'
+      <router-link to='/todos/create'
         exact
         active-class="link-active"
       >作成ページへ</router-link> |
@@ -36,7 +36,6 @@
         </form>
       </div>
     </div>
-
   <!-- <div>
     <p>名前:{{todoStates}}</p>
     パラメータ：{{ $route.params.id }}
