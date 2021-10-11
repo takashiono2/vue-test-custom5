@@ -117,7 +117,11 @@ export const actions = {
     todosRef.doc(todo.id).update({
       done: !todo.done
     })
-  })
+  }),
+  login(){
+    const google_auth_provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithRedirect(google_auth_provider)
+  }
 }
 export const getters = {
   orderdTodos: state => {

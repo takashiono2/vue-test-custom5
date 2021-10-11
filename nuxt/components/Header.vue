@@ -20,17 +20,14 @@
             <!-- <v-icon v-on="on" class="mr-5">mdi-menu</v-icon> -->
           </template>
           <v-list>
-            <v-list-item>
-              <v-list-item-content>
-                <v-toolbar-items
-                  v-for="item in items"
-                  :key="item.title"
-                   class="ma-5 text-right"
-                >
-                  <v-icon>{{item.icon}}</v-icon>
-                  <v-btn text>{{item.title}}</v-btn>
-                </v-toolbar-items>
-              </v-list-item-content>
+            <v-list-item
+              v-for="item in items"
+              :key="item.title"
+              :to="item.link"
+              class="ma-5 text-right"
+            >
+              <v-icon>{{item.icon}}</v-icon>
+              <v-btn text>{{item.title}}</v-btn>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -44,11 +41,7 @@
         <v-btn text>ユーザー</v-btn> -->
       <!-- </v-toolbar-items> -->
     </v-app-bar>
-    <!-- <h1>Todoリスト</h1> -->
-      <router-link to='/'>ホームへ</router-link> |
-      <router-link to='/create'>作成ページへ</router-link> |
-      <router-link to='/edit'>編集ページへ</router-link>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -56,9 +49,9 @@ export default {
   data(){
     return {
         items:[
-          {icon: 'mdi-lock-open',title: 'ログイン'},
-          {icon: 'mdi-account-plus-outline',title: '新規登録'},
-          {icon: 'mdi-account',title: 'ユーザー'}
+          {icon: 'mdi-lock-open',title: 'ログイン',link: '/signin'},
+          {icon: 'mdi-account-plus-outline',title: '新規登録',link: '/signup'},
+          {icon: 'mdi-account',title: 'ユーザー',link:'#'}
         ]
     }
   }

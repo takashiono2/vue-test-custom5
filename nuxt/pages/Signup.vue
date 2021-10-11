@@ -3,7 +3,7 @@
   <div class="login-form">
     <v-card width="400px" class="mx-auto mt-5">
       <v-card-title>
-        <h1 class="display-1">ログイン</h1>
+        <h1 class="display-1">新規登録</h1>
       </v-card-title>
       <v-card-text>
         <v-form>
@@ -11,6 +11,11 @@
             prepend-icon="mdi-account-circle"
             label="ユーザ名"
             v-model="name"
+          />
+          <v-text-field
+            prepend-icon="mdi-email-outline"
+            label="Email"
+            v-model="mail"
           />
           <v-text-field
             :type="showPassword ? 'text' : 'password'"
@@ -21,7 +26,9 @@
             v-model="password"
           />
             <v-card-actions>
-              <v-btn class="info" @click="submit">ログイン</v-btn>
+              <v-btn class="info" @click="submit">登録</v-btn>
+              <v-spacer />
+              <nuxt-link to="/signin">ログインはこちら</nuxt-link>
             </v-card-actions>
         </v-form>
       </v-card-text>
@@ -36,6 +43,7 @@
         showPassword : false,
         name:'',
         password:'',
+        mail:'',
       }
     },
     methods:{
@@ -45,18 +53,15 @@
     }
   }
 </script>
-<!--
-・サービス名／ロゴ
-・ログインフォーム
-　・IDパスワード入力欄
-　・ログインボタン
-　・Googleログインボタン
-・新規ユーザー登録ボタン
-・ローダー
+<!---
+・IDパスワード入力欄
+・ユーザー名入力欄
+・新規登録ボタン
+・ログインはこちら
 機能）
-・IDパスワードログイン
-・Googleログイン
+・登録
 データ）
-・ユーザーID（半角英数4文字以上ユニーク）
+・メールアドレス
 ・パスワード（半角英数8文字以上）
+・Googleアカウント
 -->

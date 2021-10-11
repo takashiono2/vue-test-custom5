@@ -125,7 +125,6 @@ export default {
   color: rgba(0,0,0,0.3);
 }
 .container{
-  padding-top: 0px;
   font-family: "Noto Sans Japanese", "Noto Sans", 'system-ui', sans-serif;
   font-weight: 700;
   font-size: 24px;

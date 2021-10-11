@@ -29,6 +29,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/firebase.js'},//firebase.jsを読み込むために追加
     { src: '@/plugins/vee-validate'},//vee-validate.jsを読み込むために追加
     { src: '~/plugins/modal.js'}//modal.jsを読み込むために追加
   ],
