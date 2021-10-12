@@ -30,20 +30,22 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        showPassword : false,
-        name:'',
-        password:'',
-      }
-    },
-    methods:{
-      submit(){
-        console.log(this.name,this.password)
-     }
+import firebase from '~/plugins/firebase'
+
+export default {
+  data() {
+    return {
+      showPassword : false,
+      name:'',
+      password:'',
+    }
+  },
+  methods:{
+    submit(){
+      console.log(this.name,this.password)
     }
   }
+}
 </script>
 <!--
 ・サービス名／ロゴ

@@ -14,11 +14,27 @@
 </template>
 
 <script>
-  // import { mapAction } from 'vuex'
+import { mapActions } from 'vuex'
+import firebase from '~/plugins/firebase'
+export default {
 
-  // export default {
-  //   methods:{
-  //     ...mapAction(['todos/login'])
-  //   }
-  // }
+mounted(){//DOMが生成された直後
+  firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
+    //var user = firebase.auth().currentUser //ログインしたらコールバック関数が働く
+    if (user) {
+      user.isLogin = true
+      console.log('=== SIGNIN');
+      this.$store.commit('setLoginUser', user)
+    } else {
+      console.log('=== SIGNOUT');
+      // this.$store.commit('logout', user)
+    }
+  })
+},
+methods: {
+  ...mapActions(['setLoginUser'])
+}
+
+}
+
 </script>
