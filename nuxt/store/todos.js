@@ -118,10 +118,10 @@ export const actions = {
       done: !todo.done
     })
   }),
-  login(){
-    const google_auth_provider = new firebase.auth.GoogleAuthProvider()
-    firebase.auth().signInWithRedirect(google_auth_provider)
-  }
+  // login(){
+  //   const google_auth_provider = new firebase.auth.GoogleAuthProvider()
+  //   firebase.auth().signInWithRedirect(google_auth_provider)
+  // }
 }
 export const getters = {
   orderdTodos: state => {

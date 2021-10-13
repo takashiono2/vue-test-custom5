@@ -6,8 +6,8 @@
         <p>googleアカウントログインページ</p>
       </v-flex>
       <v-flex xs12 mt-5>
-        <!-- <v-btn color="info" @click="login">googleアカウントでログイン</v-btn> -->
-        <v-btn color="info" @click="$store.dispatch('todos/login')">googleアカウントでログイン</v-btn>
+        <v-btn color="info" @click="googleLogin">googleアカウントでログイン</v-btn>
+        <!-- <v-btn color="info" @click="$store.dispatch('todos/login')">googleアカウントでログイン</v-btn> -->
       </v-flex>
     </v-layout>
   </v-container>
@@ -22,17 +22,18 @@ mounted(){//DOMが生成された直後
   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
     //var user = firebase.auth().currentUser //ログインしたらコールバック関数が働く
     if (user) {
-      user.isLogin = true
+      this.setLoginUser(user)//setLoginUserでuserを格納
       console.log('=== SIGNIN');
-      this.$store.commit('setLoginUser', user)
+      this.$router.push('/todos')
     } else {
       console.log('=== SIGNOUT');
-      // this.$store.commit('logout', user)
+      this.deleteLoginUser()
+      this.$router.push('/')
     }
   })
 },
 methods: {
-  ...mapActions(['setLoginUser'])
+  ...mapActions(['setLoginUser','googleLogin','deleteLoginUser'])
 }
 
 }
