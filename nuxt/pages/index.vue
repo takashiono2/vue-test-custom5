@@ -22,9 +22,11 @@ mounted(){//DOMが生成された直後
   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
     //var user = firebase.auth().currentUser //ログインしたらコールバック関数が働く
     if (user) {
+      console.log(user)
       this.setLoginUser(user)//setLoginUserでuserを格納
       console.log('=== SIGNIN');
       this.$router.push('/todos')
+      return
     } else {
       console.log('=== SIGNOUT');
       this.deleteLoginUser()
@@ -32,10 +34,23 @@ mounted(){//DOMが生成された直後
     }
   })
 },
-methods: {
-  ...mapActions(['setLoginUser','googleLogin','deleteLoginUser'])
-}
-
+  methods: {
+    googleLogin(){
+      this.$store.dispatch('googleLogin')
+    },
+    setLoginUser(){
+      this.$store.dispatch('setLoginUser')
+    },
+    deleteLoginUser(){
+      this.$store.dispatch('deleteLoginUser')
+      this.$store.dispatch('logOut')
+    }
+  //   // ...mapActions(['googleLogin'])
+  //   // ...mapActions(['setLoginUser','googleLogin','logOut','deleteLoginUser'])
+  //   // ...mapActions(['googleLogin'])
+  // }
+    // ...mapActions(['googleLogin','setLoginUser'])
+  }
 }
 
 </script>

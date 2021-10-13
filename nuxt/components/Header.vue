@@ -4,9 +4,9 @@
       <v-toolbar-title style="cursor: pointer" @click="$router.push('/todos')" >Todoリスト</v-toolbar-title>
       <v-spacer />
       <!-- <div v-if="$store.state.login_user"> -->
-      <div v-if="login_user">
+      <!-- <div v-if="login_user"> -->
         <v-btn @click="logOut">ログアウト</v-btn>
-      </div>
+      <!-- </div> -->
       <v-toolbar-items>
         <v-menu offset-y max-width="200">
           <template v-slot:activator="{on}">
@@ -60,20 +60,41 @@ export default {
         ]
     }
   },
-  computed: mapState(['login_user']),
-  created(){
-    const user = firebase.auth().login_user
-    if (user) {
-        // ログイン済み
-      this.user = user
-    } else {
-        // 未ログイン。ログイン画面へ遷移する
-      this.$router.push('/login')
-      return
-    }
-  },
+//   computed: mapState(['login_user']),
+//   mounted(){//DOMが生成された直後
+//   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
+//     //var user = firebase.auth().currentUser //ログインしたらコールバック関数が働く
+//     if (user) {
+//       this.setLoginUser(user)//setLoginUserでuserを格納
+//       console.log('=== SIGNIN');
+//       this.$router.push('/todos')
+//     } else {
+//       console.log('=== SIGNOUT');
+//       this.deleteLoginUser()
+//       this.$router.push('/')
+//     }
+//   })
+// },
+  // created(){
+  //   const user = firebase.auth().login_user
+  //   if (user) {
+  //       // ログイン済み
+  //     this.user = user
+  //   } else {
+  //       // 未ログイン。ログイン画面へ遷移する
+  //     this.$router.push('/login')
+  //     return
+  //   }
+  // },
+  // methods: {
+  //   ...mapActions(['setLoginUser','googleLogin','logOut','deleteLoginUser'])
+  // }
   methods: {
-    ...mapActions(['logOut'])
+    logOut(){
+      this.$store.dispatch('logOut')
+      this.$store.dispatch('deleteLoginUser')
+    }
+    // ...mapActions(['logOut','deleteLoginUser'])
   }
 }
 </script>
