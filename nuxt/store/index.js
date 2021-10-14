@@ -4,21 +4,20 @@ import { auth } from '~/plugins/firebase.js'
 import '@mdi/font/css/materialdesignicons.css' // この行を追加
 //設定
 export const state = () => ({
-  login_user: null,
-  user:{
-    // uid:'',
-    // email:'',
-    // login:false,
-  }
+  login_user: 'テスト1'
+  //   // uid:'',
+  //   // email:'',
+  //   // login:false,
+  // }
 })
 //stateして更新
 export const mutations = {
   ...vuexfireMutations,
   //ログイン時の処理
   setLoginUser(state,user){
-    console.log('userが入った?')
+    // console.log(state.login_user===null)
     state.login_user = user
-    console.log('userが入った!')
+    // console.log(state.login_user===null)
   },
   //ログアウト時の処理、userをnullにする
   deleteLoginUser(state){
@@ -43,6 +42,22 @@ export const actions = {//mutationsと連携してコンポーネントからset
     console.log('ログアウトボタンが押されました')
     firebase.auth().signOut()//user削除した後のサインアウト処理
     this.$router.push('/')
-  }
+  },
+  //名前,email認証
+  signUp({ commit }, { email, password }) {
+    return auth().createUserWithEmailAndPassword(email, password)
+  },
+  ////名前,email認証
+  signInWithEmail({ commit }, { email, password }) {
+    return auth().signInWithEmailAndPassword(email, password)
+  },
 }
+export const getters = {
+  loginUser(state){
+    return state.login_user
+  },
+  userName: state => state.login_user ? state.login_user.displayName : '',
+  photoURL: state => state.login_user ? state.login_user.photoURL : ''
+}
+
 

@@ -3,10 +3,10 @@
     <v-app-bar color="primary" dark app clipped-left><!--clippedあると、ナビバーを巻き込まない-->
       <v-toolbar-title style="cursor: pointer" @click="$router.push('/todos')" >Todoリスト</v-toolbar-title>
       <v-spacer />
-      <!-- <div v-if="$store.state.login_user"> -->
-      <!-- <div v-if="login_user"> -->
+      <img v-if="photoURL" :src="photoURL">
+      <div v-if="loginUser">
         <v-btn @click="logOut">ログアウト</v-btn>
-      <!-- </div> -->
+      </div>
       <v-toolbar-items>
         <v-menu offset-y max-width="200">
           <template v-slot:activator="{on}">
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { mapState,mapActions } from 'vuex'
+import { mapState,mapActions,mapGetters} from 'vuex'
 import firebase from '~/plugins/firebase'
 export default {
   data(){
@@ -60,7 +60,10 @@ export default {
         ]
     }
   },
-//   computed: mapState(['login_user']),
+  computed: {
+    ...mapGetters(['loginUser','userName', 'photoURL'])
+    // ...mapGetters(['loginUser'])
+  },
 //   mounted(){//DOMが生成された直後
 //   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
 //     //var user = firebase.auth().currentUser //ログインしたらコールバック関数が働く

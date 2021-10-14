@@ -104,6 +104,7 @@
                   </td>
                 </span>
               </tr>
+              {{loginUser}}
             </tbody>
           </table>
     </section>
@@ -112,7 +113,7 @@
 
 <script>
   import moment from 'moment'
-
+import { mapActions,mapGetters } from 'vuex'
   export default {
     layout: 'default',
     data: function(){
@@ -165,6 +166,7 @@
       }
     },
     computed:{
+      ...mapGetters(['loginUser']),
       // filteredTodos: function () {
       //   return filters[this.visibility](this.todos)
       // },

@@ -7,3 +7,5 @@
 (参考)[https://qiita.com/you8/items/ef68963963a82a4d1720]
 (参考)[https://note.com/aliz/n/nbda9579d979a]
 (参考)[https://volpe.hatenablog.com/entry/2019/03/28/172057]
+(参考)[https://blog.cloud-acct.com/posts/u-nuxt-redirect-middleware/]
+(参考)[https://blog.cloud-acct.com/posts/u-nuxtjs-layout-desings/]

@@ -31,7 +31,8 @@ export default {
   plugins: [
     { src: '~/plugins/firebase.js'},//firebase.jsを読み込むために追加
     { src: '@/plugins/vee-validate'},//vee-validate.jsを読み込むために追加
-    { src: '~/plugins/modal.js'}//modal.jsを読み込むために追加
+    { src: '~/plugins/modal.js'},//modal.jsを読み込むために追加
+    { src: '~/plugins/firebase.auth.js'}//ユーザーがログインやログアウトをした際にvuexに認証状態を通知
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -66,5 +67,8 @@ export default {
     ],//vee-validate.jsを読み込むために追加
     extend(config, ctx) {}//vee-validate.jsを読み込むために追加
   },
+  router: {//認証用、全部ページでmiddlewareを有効化
+    middleware: 'authenticated'
+  }
 
 }

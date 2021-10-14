@@ -8,9 +8,9 @@
       <v-card-text>
         <v-form>
           <v-text-field
-            prepend-icon="mdi-account-circle"
-            label="ユーザ名"
-            v-model="name"
+            prepend-icon="mdi-email-outline"
+            label="Email"
+            v-model="mail"
           />
           <v-text-field
             :type="showPassword ? 'text' : 'password'"
@@ -20,6 +20,16 @@
             label="パスワード"
             v-model="password"
           />
+<!--エラーメッセージ-->
+          <v-alert
+            v-if="loginErrorMsg"
+            dense
+            text
+            type="error"
+          >
+            {{ loginErrorMsg }}
+          </v-alert>
+<!--ここまで、エラーメッセージ-->
             <v-card-actions>
               <v-btn class="info" @click="submit">ログイン</v-btn>
             </v-card-actions>
@@ -33,20 +43,48 @@
 import firebase from '~/plugins/firebase'
 
 export default {
+  layout: 'signin',//layoutのdefaultページをsinginページに置き換える
   data() {
     return {
       showPassword : false,
-      name:'',
+      mail:'',
       password:'',
+      //login_valid: true,  //後から追加vuetifyのバリデーションv-model=valid lazy-validation
+      loginErrorMsg: '',//追加
+      //socialLoginErrorMsg: ''  //googleボタンのエラーメッセージ用
     }
   },
   methods:{
     submit(){
       console.log(this.name,this.password)
+    },
+    email_login(err) {
+      this.$store
+          .dispatch('signInWithEmail', {
+              email: this.login_email,
+              password: this.login_password
+          })
+          .then(() => {
+              this.login_email = ''
+              this.login_password = ''
+              this.$router.push({
+                  name: 'index'
+              })
+          })
+          .catch((err) => {
+              if (err.code === 'auth/user-disabled') {
+                  this.loginErrorMsg =
+                      'このアカウントはロックされています。'
+              } else {
+                  this.loginErrorMsg =
+                      'メールアドレスまたはパスワードが間違っています。'
+              }
+          })
     }
   }
 }
 </script>
+<!--参考https://www.metrocode.co/blog/post/firebase-authentication-nuxt-vuejs-->
 <!--
 ・サービス名／ロゴ
 ・ログインフォーム

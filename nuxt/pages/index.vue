@@ -14,15 +14,18 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions,mapGetters } from 'vuex'
 import firebase from '~/plugins/firebase'
 export default {
-
-mounted(){//DOMが生成された直後
+data () {
+  return {
+    //
+  }
+},
+created (){//DOMが生成された直後
   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
     //var user = firebase.auth().currentUser //ログインしたらコールバック関数が働く
     if (user) {
-      console.log(user)
       this.setLoginUser(user)//setLoginUserでuserを格納
       console.log('=== SIGNIN');
       this.$router.push('/todos')
@@ -34,12 +37,17 @@ mounted(){//DOMが生成された直後
     }
   })
 },
+  computed: {
+    ...mapGetters(['loginUser'])
+  },
   methods: {
     googleLogin(){
       this.$store.dispatch('googleLogin')
     },
-    setLoginUser(){
-      this.$store.dispatch('setLoginUser')
+    setLoginUser(user){
+      user = 'test2'
+      console.log(user)
+      this.$store.dispatch('setLoginUser',user)
     },
     deleteLoginUser(){
       this.$store.dispatch('deleteLoginUser')
@@ -50,7 +58,7 @@ mounted(){//DOMが生成された直後
   //   // ...mapActions(['googleLogin'])
   // }
     // ...mapActions(['googleLogin','setLoginUser'])
-  }
+  },
 }
 
 </script>
