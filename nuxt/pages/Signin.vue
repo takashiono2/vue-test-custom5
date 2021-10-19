@@ -55,31 +55,12 @@ export default {
     }
   },
   methods:{
-    submit(){
-      console.log(this.name,this.password)
-    },
-    email_login(err) {
-      this.$store
-          .dispatch('signInWithEmail', {
-              email: this.login_email,
-              password: this.login_password
-          })
-          .then(() => {
-              this.login_email = ''
-              this.login_password = ''
-              this.$router.push({
-                  name: 'index'
-              })
-          })
-          .catch((err) => {
-              if (err.code === 'auth/user-disabled') {
-                  this.loginErrorMsg =
-                      'このアカウントはロックされています。'
-              } else {
-                  this.loginErrorMsg =
-                      'メールアドレスまたはパスワードが間違っています。'
-              }
-          })
+    submit(mail,password){
+      this.$store.dispatch('logIn', {
+                                      mail: this.mail,
+                                      password: this.password
+                                    }
+                          )
     }
   }
 }

@@ -4,36 +4,41 @@ import { auth } from '~/plugins/firebase.js'
 import '@mdi/font/css/materialdesignicons.css' // この行を追加
 //設定
 export const state = () => ({
-  login_user: 'テスト1'
-  //   // uid:'',
-  //   // email:'',
-  //   // login:false,
-  // }
+  // login_user: '',
+  user: {
+    uid: '',
+    mail: '',
+    login: false,
+  },
 })
 //stateして更新
 export const mutations = {
   ...vuexfireMutations,
   //ログイン時の処理
-  setLoginUser(state,user){
-    // console.log(state.login_user===null)
-    state.login_user = user
-    // console.log(state.login_user===null)
-  },
+  // setLoginUser(state,user){
+  //   // console.log(state.login_user===null)
+  //   state.login_user = user
+  //   // console.log(state.login_user===null)
+  // },
   //ログアウト時の処理、userをnullにする
   deleteLoginUser(state){
-    state.login_user = null
-  }
+    state.user = null
+  },
+  //入ってきた、payloadオブジェクトを現在のstateオブジェクトに更新
+  getData (state, payload) {
+    state.user.uid = payload.uid
+    state.user.email = payload.email
+  },
+  switchLogin (state) {
+    state.user.login = true
+   },
 }
 //commitして mutationsを更新
-export const actions = {//mutationsと連携してコンポーネントからsetLoginUserを呼び出せばlogin_userを格納できる
-  //googleでログインする（google認証プロバイダを利用する）
-  googleLogin(){
-    const google_auth_provider = new firebase.auth.GoogleAuthProvider()
-    firebase.auth().signInWithRedirect(google_auth_provider)
-  },
-  setLoginUser({ commit },user){
-    commit('setLoginUser',user)
-  },
+//参考https://firebase.google.cn/docs/auth/web/google-signin?hl=ja
+export const actions = {
+  // setLoginUser({ commit },user){
+  //   commit('setLoginUser',user)
+  // },
   deleteLoginUser({ commit }){
     console.log('deleteLoginUser')
     commit('deleteLoginUser')
@@ -43,21 +48,69 @@ export const actions = {//mutationsと連携してコンポーネントからset
     firebase.auth().signOut()//user削除した後のサインアウト処理
     this.$router.push('/')
   },
-  //名前,email認証
-  signUp({ commit }, { email, password }) {
-    return auth().createUserWithEmailAndPassword(email, password)
+//新規登録　dispatch('checkLogin')でactionsのcheckLogin（）を実行
+  register ({ dispatch, commit }, payload) {
+    firebase.auth().createUserWithEmailAndPassword(payload.mail, payload.password)
+    .then(user => {
+      console.log(user)
+      dispatch('checkLogin')
+    })
+    .catch(function (error) {
+      console.log({'code':error.code, 'message':error.message})
+    })
+   },
+//新規登録後、googleLogin後、　commitでmutationsのgetDataとswitchLoginを実行
+  checkLogin ({ commit }) {
+    console.log('checkLogin!')
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        console.log('=== SIGNIN');
+        commit('getData', { uid: user.uid, email: user.email })
+        commit('switchLogin')//ログイン状態を確認するためのもの
+      } else {
+        this.deleteLoginUser()
+        this.$router.push('/')
+      }
+    })
   },
-  ////名前,email認証
-  signInWithEmail({ commit }, { email, password }) {
-    return auth().signInWithEmailAndPassword(email, password)
+//ログイン　https://firebase.google.com/docs/auth/web/start?hl=ja#web-version-8_1
+  logIn(commit, payload) {
+    firebase.auth().signInWithEmailAndPassword(payload.mail, payload.password)
+      .then(user => {
+        console.log('成功！')
+        firebase.auth().onAuthStateChanged(function (user) {
+        console.log('ログイン時user.uid：'+user.uid)
+          if (user) {
+            commit('getData', { uid: user.uid, mail: user.mail })
+            console.log('ログイン時'+user.uid,user.mail)
+          }
+        })
+      })
+      .catch((error) => {
+          alert(error)
+        })
   },
+//   //名前,email認証
+//   signUp({ commit }, { email, password }) {
+//     return auth().createUserWithEmailAndPassword(email, password)
+//   },
+//   ////名前,email認証
+//   signInWithEmail({ commit }, { email, password }) {
+//     return auth().signInWithEmailAndPassword(email, password)
+//   },
 }
 export const getters = {
-  loginUser(state){
-    return state.login_user
+  user: state => {
+    console.log('ログイン時1：'+state.user)
+    console.log('ログイン時2：'+state.login_user )
+    console.log('ログイン時3：'+state.user.login)
+    return state.user
   },
-  userName: state => state.login_user ? state.login_user.displayName : '',
-  photoURL: state => state.login_user ? state.login_user.photoURL : ''
+  loginUser(state){
+    console.log('ログイン状態:' + state.user.login)
+    return state.user.login
+  }
 }
-
-
+//   userName: state => state.login_user ? state.login_user.displayName : '',
+//   photoURL: state => state.login_user ? state.login_user.photoURL : ''
+// }

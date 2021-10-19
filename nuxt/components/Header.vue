@@ -3,10 +3,11 @@
     <v-app-bar color="primary" dark app clipped-left><!--clippedあると、ナビバーを巻き込まない-->
       <v-toolbar-title style="cursor: pointer" @click="$router.push('/todos')" >Todoリスト</v-toolbar-title>
       <v-spacer />
-      <img v-if="photoURL" :src="photoURL">
-      <div v-if="loginUser">
+      <!-- <img v-if="photoURL" :src="photoURL"> -->
+      <!-- {{user}} -->
+      <!-- <div v-if="user.login"> -->
         <v-btn @click="logOut">ログアウト</v-btn>
-      </div>
+      <!-- </div> -->
       <v-toolbar-items>
         <v-menu offset-y max-width="200">
           <template v-slot:activator="{on}">
@@ -61,8 +62,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['loginUser','userName', 'photoURL'])
+    user(){
+      return this.$store.getters['user']
+    }
+    // ...mapGetters(['loginUser','userName', 'photoURL'])
+    // ...mapGetters(['loginUser','userName', 'photoURL'])
     // ...mapGetters(['loginUser'])
+
   },
 //   mounted(){//DOMが生成された直後
 //   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する

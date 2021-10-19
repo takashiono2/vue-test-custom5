@@ -104,7 +104,7 @@
                   </td>
                 </span>
               </tr>
-              {{loginUser}}
+              <!-- {{loginUser}} -->
             </tbody>
           </table>
     </section>

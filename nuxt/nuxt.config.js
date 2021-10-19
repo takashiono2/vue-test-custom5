@@ -2,9 +2,9 @@ const pkg = require('./package')
 const webpack = require('webpack')
 
 export default {
-  mode: 'universal',//vee-validate.jsを読み込むために追加
+  //mode: 'universal',//vee-validate.jsを読み込むために追加 //mode: 'universal'は非推奨なのでエラー出る
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  ssr: false, //SPAモードの場合は ssr: false
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -32,7 +32,7 @@ export default {
     { src: '~/plugins/firebase.js'},//firebase.jsを読み込むために追加
     { src: '@/plugins/vee-validate'},//vee-validate.jsを読み込むために追加
     { src: '~/plugins/modal.js'},//modal.jsを読み込むために追加
-    { src: '~/plugins/firebase.auth.js'}//ユーザーがログインやログアウトをした際にvuexに認証状態を通知
+    //{ src: '~/plugins/firebase.auth.js'}//ユーザーがログインやログアウトをした際にvuexに認証状態を通知
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -67,8 +67,8 @@ export default {
     ],//vee-validate.jsを読み込むために追加
     extend(config, ctx) {}//vee-validate.jsを読み込むために追加
   },
-  router: {//認証用、全部ページでmiddlewareを有効化
-    middleware: 'authenticated'
-  }
+  // router: {//認証用、全部ページでmiddlewareを有効化
+  //   middleware: 'authenticated'
+  // }
 
 }

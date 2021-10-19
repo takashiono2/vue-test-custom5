@@ -17,38 +17,36 @@
 import { mapActions,mapGetters } from 'vuex'
 import firebase from '~/plugins/firebase'
 export default {
-data () {
-  return {
-    //
-  }
-},
-created (){//DOMが生成された直後
+// created (){//DOMが生成された直後
+  mounted (){
   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
     //var user = firebase.auth().currentUser //ログインしたらコールバック関数が働く
     if (user) {
-      this.setLoginUser(user)//setLoginUserでuserを格納
+      //this.setLoginUser(user)//setLoginUserでuserを格納
       console.log('=== SIGNIN');
+      this.$store.commit('switchLogin')
       this.$router.push('/todos')
-      return
     } else {
       console.log('=== SIGNOUT');
+      // this.isLogin = null;
       this.deleteLoginUser()
       this.$router.push('/')
     }
   })
 },
-  computed: {
-    ...mapGetters(['loginUser'])
-  },
+  // computed: {
+  //   ...mapGetters(['loginUser'])
+  // },
   methods: {
     googleLogin(){
-      this.$store.dispatch('googleLogin')
+      const google_auth_provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithRedirect(google_auth_provider)
     },
-    setLoginUser(user){
-      user = 'test2'
-      console.log(user)
-      this.$store.dispatch('setLoginUser',user)
-    },
+    // setLoginUser(user){
+    //   user = 'test2'
+    //   console.log(user)
+    //   this.$store.dispatch('setLoginUser',user)
+    // },
     deleteLoginUser(){
       this.$store.dispatch('deleteLoginUser')
       this.$store.dispatch('logOut')
@@ -58,6 +56,11 @@ created (){//DOMが生成された直後
   //   // ...mapActions(['googleLogin'])
   // }
     // ...mapActions(['googleLogin','setLoginUser'])
+  },
+  computed: {
+    user () {
+      return this.$store.getters['user']
+    },
   },
 }
 

@@ -46,11 +46,16 @@
         mail:'',
       }
     },
-    methods:{
-      submit(){
-        console.log(this.name,this.password)
-     }
-    }
+    methods: {
+      submit() {
+        this.$store.dispatch('register',
+                              {
+                                mail: this.mail,
+                                password: this.password
+                              }
+                            )
+      }
+    },
   }
 </script>
 <!---
