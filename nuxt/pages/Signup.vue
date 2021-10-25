@@ -15,7 +15,7 @@
           <v-text-field
             prepend-icon="mdi-email-outline"
             label="Email"
-            v-model="mail"
+            v-model="email"
           />
           <v-text-field
             :type="showPassword ? 'text' : 'password'"
@@ -43,14 +43,15 @@
         showPassword : false,
         name:'',
         password:'',
-        mail:'',
+        email:'',
       }
     },
     methods: {
       submit() {
-        this.$store.dispatch('register',
+        this.$store.dispatch('signUp',
                               {
-                                mail: this.mail,
+                                // name: this.name,
+                                email: this.email,
                                 password: this.password
                               }
                             )

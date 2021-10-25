@@ -68,7 +68,7 @@ export default {
     extend(config, ctx) {}//vee-validate.jsを読み込むために追加
   },
   // router: {//認証用、全部ページでmiddlewareを有効化
-  //   middleware: 'authenticated'
+  //   middleware: ['auth']
   // }
 
 }

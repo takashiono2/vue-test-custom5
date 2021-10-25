@@ -10,7 +10,7 @@
           <v-text-field
             prepend-icon="mdi-email-outline"
             label="Email"
-            v-model="mail"
+            v-model="email"
           />
           <v-text-field
             :type="showPassword ? 'text' : 'password'"
@@ -40,14 +40,14 @@
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
+import firebase from '../plugins/firebase'
 
 export default {
   layout: 'signin',//layoutのdefaultページをsinginページに置き換える
   data() {
     return {
       showPassword : false,
-      mail:'',
+      email:'',
       password:'',
       //login_valid: true,  //後から追加vuetifyのバリデーションv-model=valid lazy-validation
       loginErrorMsg: '',//追加
@@ -55,9 +55,9 @@ export default {
     }
   },
   methods:{
-    submit(mail,password){
+    submit(email,password){
       this.$store.dispatch('logIn', {
-                                      mail: this.mail,
+                                      email: this.email,
                                       password: this.password
                                     }
                           )

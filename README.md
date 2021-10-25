@@ -10,3 +10,6 @@
 (参考)[https://note.com/aliz/n/nbda9579d979a]googleログイン
 (参考)[https://volpe.hatenablog.com/entry/2019/03/28/172057]
 (参考)[https://blog.cloud-acct.com/posts/u-nuxt-redirect-middleware/]
+(参考)[https://qiita.com/redshoga/items/da5c0e247e0df314a257]
+(参考)[https://www.autovice.jp/articles/80]ユーザー一覧
+(参考)[https://qiita.com/ririli/items/d0d3a6ae78c1b6e827fc]ハンズオン

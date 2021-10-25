@@ -15,16 +15,21 @@
 
 <script>
 import { mapActions,mapGetters } from 'vuex'
-import firebase from '~/plugins/firebase'
+import firebase from '../plugins/firebase'
 export default {
-// created (){//DOMが生成された直後
-  mounted (){
+data () {
+  return {
+    //
+  }
+},
+created (){
   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
-    //var user = firebase.auth().currentUser //ログインしたらコールバック関数が働く
     if (user) {
-      //this.setLoginUser(user)//setLoginUserでuserを格納
+      // this.setLoginUser(user)//setLoginUserでuserを格納
+      const { uid, displayName } = user;
+      this.$store.dispatch("setLoginUser", { uid, displayName });
       console.log('=== SIGNIN');
-      this.$store.commit('switchLogin')
+      // this.$store.commit('switchLogin')
       this.$router.push('/todos')
     } else {
       console.log('=== SIGNOUT');
@@ -38,10 +43,11 @@ export default {
   //   ...mapGetters(['loginUser'])
   // },
   methods: {
-    googleLogin(){
-      const google_auth_provider = new firebase.auth.GoogleAuthProvider()
-      firebase.auth().signInWithRedirect(google_auth_provider)
-    },
+    ...mapActions(['googleLogin','setLoginUser','logOut','deleteLoginUser']),
+    // googleLogin(){
+    //   const google_auth_provider = new firebase.auth.GoogleAuthProvider()
+    //   firebase.auth().signInWithRedirect(google_auth_provider)
+    // },
     // setLoginUser(user){
     //   user = 'test2'
     //   console.log(user)
@@ -50,18 +56,17 @@ export default {
     deleteLoginUser(){
       this.$store.dispatch('deleteLoginUser')
       this.$store.dispatch('logOut')
-    }
+    },
   //   // ...mapActions(['googleLogin'])
   //   // ...mapActions(['setLoginUser','googleLogin','logOut','deleteLoginUser'])
   //   // ...mapActions(['googleLogin'])
   // }
-    // ...mapActions(['googleLogin','setLoginUser'])
   },
-  computed: {
-    user () {
-      return this.$store.getters['user']
-    },
-  },
+  // computed: {
+  //   user () {
+  //     return this.$store.getters['user']
+  //   },
+  // },
 }
 
 </script>
