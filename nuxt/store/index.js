@@ -131,13 +131,17 @@ export const actions = {
 export const getters = {
   // uid: state => state.user ? state.user.uid : '',
   uid: state => state.login_user ? state.login_user.uid : '',
-  user: state => {
-    return state.user
-  },
+  userName: state => state.login_user ? state.login_user.displayName : '',
+  photoURL: state => state.login_user ? state.login_user.photoURL : '',
   loginUser(state){
     console.log('ログイン状態:' + state.user.login)
     return state.user.login
-  }
+  },
+  user: state => {
+    const user = firebase.auth().currentUser
+    state.use = user
+    return state.user
+  },
 }
 //   userName: state => state.login_user ? state.login_user.displayName : '',
 //   photoURL: state => state.login_user ? state.login_user.photoURL : ''

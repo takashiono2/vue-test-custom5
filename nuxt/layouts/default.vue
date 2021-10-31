@@ -27,7 +27,7 @@ export default {
   text-align: center;
   min-height: 300px;
   color: #000000;
-  margin: 0 auto;
+  margin: 20px auto;
   background-color :#ffffff;
   line-height: 1.5em;
   border-radius: 15px;

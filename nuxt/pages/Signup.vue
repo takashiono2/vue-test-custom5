@@ -50,7 +50,6 @@
       submit() {
         this.$store.dispatch('signUp',
                               {
-                                // name: this.name,
                                 email: this.email,
                                 password: this.password
                               }

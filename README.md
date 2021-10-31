@@ -8,6 +8,9 @@
 (参考)[https://note.com/aliz/n/n8eb501e39fa4]アカウント作成
 (参考)[https://note.com/aliz/n/n7f4ae08ba828]mailログイン
 (参考)[https://note.com/aliz/n/nbda9579d979a]googleログイン
+(参考)[https://note.com/aliz/n/nacc97fe7d019]firebaseに名前登録
+(参考)[https://devsakaso.com/firebase-vue-js-create-login-form/]userProfileメソッド
+(参考)[https://hacknote.jp/archives/26570/]ユーザー情報の取得
 (参考)[https://volpe.hatenablog.com/entry/2019/03/28/172057]
 (参考)[https://blog.cloud-acct.com/posts/u-nuxt-redirect-middleware/]
 (参考)[https://qiita.com/redshoga/items/da5c0e247e0df314a257]
