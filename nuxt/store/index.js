@@ -7,6 +7,7 @@ import '@mdi/font/css/materialdesignicons.css' // この行を追加
 
 export const state = () => ({
   login_user: null,
+  addresses:[],
   user: {
     uid: '',
     email: '',
@@ -17,6 +18,11 @@ export const state = () => ({
 //stateして更新
 export const mutations = {
   ...vuexfireMutations,
+  //アドレス追加時
+  addAddress(state,address){
+    state.addresses.push(address)
+  },
+
   //ログイン時の処理
   setLoginUser(state,user){
     // console.log(state.login_user===null)
@@ -47,6 +53,9 @@ export const mutations = {
 //commitして mutationsを更新
 //参考https://firebase.google.cn/docs/auth/web/google-signin?hl=ja
 export const actions = {
+  addAddress({commit},address){
+    commit('addAddress',address)
+  },
   setLoginUser({ commit },user){
     commit('setLoginUser',user)
   },

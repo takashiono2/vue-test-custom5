@@ -13,8 +13,8 @@
                <v-text-field v-model="address.tel" label="電話番号"></v-text-field>
                <v-text-field v-model="address.email" label="メールアドレス"></v-text-field>
                <v-text-field v-model="address.address" label="住所"></v-text-field>
-               <v-btn @click="$router.push({ name: 'addresses' })">キャンセル</v-btn>
-               <v-btn color="info" >保存</v-btn>
+               <v-btn @click="$router.push('/addresses')">キャンセル</v-btn>
+               <v-btn color="info" @click="submit">保存</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -24,11 +24,20 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
       address: {}
     }
-  }
+  },
+  methods:{
+    submit(){
+      this.addAddress(this.address)
+      this.$router.push('/addresses')
+      this.address = {}
+    },
+    ...mapActions(['addAddress'])
+  },
 }
 </script>
