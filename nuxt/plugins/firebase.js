@@ -15,5 +15,10 @@ if(!firebase.apps.length){
   firebase.initializeApp(config)
 }
 
+ // 今回は現在のセッションまたはタブでのみ状態が保持される設定
+ 　firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(() => {
+  console.log('firebase.jsにてInitialized!') // 確認用のメッセージ
+})
+
 export const auth = firebase.auth
 export default firebase

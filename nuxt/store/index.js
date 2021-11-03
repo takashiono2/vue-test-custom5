@@ -8,6 +8,10 @@ import '@mdi/font/css/materialdesignicons.css' // この行を追加
 export const state = () => ({
   login_user: null,
   addresses:[],
+  userUid: '',
+  loggedIn: false,
+  photoURL:'',
+  displayName:''
   // user: {
   //   uid: '',
   //   email: '',
@@ -35,6 +39,21 @@ export const mutations = {
     // state.user = null
     state.login_user  = null
   },
+ 　// 認証状態を双方向に変化
+  loginStatusChange(state, status) {
+    state.loggedIn = status
+  },
+  // user_uidの取得
+  setUserUid(state, userUid) {
+    state.userUid = userUid
+  },
+  setDisplayName(state, displayName) {
+    state.displayName = displayName
+  },
+  setPhotoURL(state,photoURL) {
+    state.photoURL = photoURL
+  },
+
   //入ってきた、payloadオブジェクトを現在のstateオブジェクトに更新
   // getData (state, payload) {
   //   state.user.uid = payload.uid
@@ -72,12 +91,26 @@ export const actions = {
     // firebase.auth().signInWithRedirect(google_auth_provider)
     firebase.auth().signInWithPopup(google_auth_provider).then(function(result) {
       const user = result.user;
-      console.log('success : ' + user)
+      commit('loginStateChange', true)
+      console.log('Login was successful')
+      commit('setUserUid', user.uid)
+      commit('setDisplayName', user.displayName)
+      commit('setPhotoURL', user.photoURL)
       this.$router.push('/todos')
     }).catch(function(error) {
       var errorCode = error.code;
       console.log('error : ' + errorCode)
     });
+  },
+    // 認証状態の取得をするaction
+  onAuth({ commit }) {
+    firebase.auth().onAuthStateChanged(user => {
+      user = user ? user : {}
+      commit('setUserUid', user.uid)
+      commit('setDisplayName', user.displayName)//追加
+      commit('setPhotoURL', user.photoURL)//追加
+      commit('loginStatusChange', user.uid ? true : false)
+    })
   },
   logOut(){
     console.log('ログアウトボタンが押されました')
@@ -143,11 +176,20 @@ export const actions = {
 export const getters = {
   // uid: state => state.login_user ? state.login_user.uid : null,
   uid: state => state.user ? state.user.uid : null,
-  userName: state => state.login_user ? state.login_user.displayName : '',
-  photoURL: state => state.login_user ? state.login_user.photoURL : '',
+  // userUid: state => state.userUid ? state.userUid : '',//追加
+  // userName: state => state.login_user ? state.login_user.displayName : '',
+  // photoURL: state => state.login_user ? state.login_user.photoURL : '',
   loginUser(state){
-    console.log('ログイン状態:' + state.login_user)
-    return state.login_user
+    // console.log('ログイン状態:' + state.login_user)
+    console.log('ログイン状態:' + state.loggedIn)
+    // return state.login_user
+    return state.loggedIn
+  },
+  setDisplayName(state){
+    return state.displayName
+  },
+  setPhotoURL(state){
+    return state.photoURL
   },
   user: state => {
     const user = firebase.auth().currentUser

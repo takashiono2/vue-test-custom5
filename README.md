@@ -16,3 +16,4 @@
 (参考)[https://qiita.com/redshoga/items/da5c0e247e0df314a257]
 (参考)[https://www.autovice.jp/articles/80]ユーザー一覧
 (参考)[https://qiita.com/ririli/items/d0d3a6ae78c1b6e827fc]ハンズオン
+(参考)[https://zenn.dev/grinch1252/articles/99c3010e235609]google認証でリロードで維持
