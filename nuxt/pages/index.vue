@@ -26,8 +26,8 @@ created (){
   firebase.auth().onAuthStateChanged(user => {//ログインするユーザーを監視する
     if (user) {
       // this.setLoginUser(user)//setLoginUserでuserを格納
-      const { uid, displayName } = user;
-      this.$store.dispatch("setLoginUser", { uid, displayName });
+      const { uid, displayName, photoURL } = user;
+      this.$store.dispatch("setLoginUser", { uid, displayName ,photoURL });
       console.log('=== SIGNIN');
       // this.$store.commit('switchLogin')
       this.$router.push('/todos')

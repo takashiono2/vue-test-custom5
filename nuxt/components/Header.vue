@@ -3,11 +3,14 @@
     <v-app-bar color="primary" dark app clipped-left><!--clippedあると、ナビバーを巻き込まない-->
       <v-toolbar-title style="cursor: pointer" @click="$router.push('/todos')" >Todoリスト</v-toolbar-title>
       <v-spacer />
-      <!-- <img v-if="photoURL" :src="photoURL"> -->
-      <!-- {{user}} -->
-      <!-- <div v-if="user.login"> -->
+      <div>{{userName}}</div>
+      <!-- {{user.userName}} -->
+      <img :src="photoURL">
+      <!-- {{this.user.photoURL}} -->
+      <!-- <div v-if="$store.state.login_user"> -->
+      <div v-if="loginUser">
         <v-btn @click="logOut">ログアウト</v-btn>
-      <!-- </div> -->
+      </div>
       <v-toolbar-items>
         <v-menu offset-y max-width="200">
           <template v-slot:activator="{on}">
@@ -36,7 +39,6 @@
           </v-list>
         </v-menu>
       </v-toolbar-items>
-
       <!-- <v-toolbar-items v-for="item in items" :key="item">
         <v-icon>{{item.icon}}</v-icon>
         <v-btn text>{{item.title}}</v-btn> -->
@@ -58,13 +60,11 @@ export default {
           {icon: 'mdi-lock-open',title: 'ログイン',link: '/signin'},
           {icon: 'mdi-account-plus-outline',title: '新規登録',link: '/signup'},
           {icon: 'mdi-account',title: 'ユーザー',link:'#'}
-        ]
+        ],
     }
   },
   computed: {
-    user(){
-      return this.$store.getters['user']
-    }
+    ...mapGetters(['userName','photoURL','loginUser']),
     // ...mapGetters(['loginUser','userName', 'photoURL'])
     // ...mapGetters(['loginUser','userName', 'photoURL'])
     // ...mapGetters(['loginUser'])

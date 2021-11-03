@@ -8,12 +8,12 @@ import '@mdi/font/css/materialdesignicons.css' // この行を追加
 export const state = () => ({
   login_user: null,
   addresses:[],
-  user: {
-    uid: '',
-    email: '',
-    // login: false,
-    login: null
-  },
+  // user: {
+  //   uid: '',
+  //   email: '',
+  //   // login: false,
+  //   login: null
+  // },
 })
 //stateして更新
 export const mutations = {
@@ -53,7 +53,10 @@ export const mutations = {
 //commitして mutationsを更新
 //参考https://firebase.google.cn/docs/auth/web/google-signin?hl=ja
 export const actions = {
-  addAddress({commit},address){
+  addAddress({ getters,commit },address){
+    console.log(getters.uid)
+    // console.log('getters.uid：'+getters.uid)　//getters.uidがnullになるのはなぜ？
+    if(getters.uid) firebase.firestore().collection(`users/{$getters.uid}/addresses`).add(address)
     commit('addAddress',address)
   },
   setLoginUser({ commit },user){
@@ -138,18 +141,19 @@ export const actions = {
 //   },
 }
 export const getters = {
-  // uid: state => state.user ? state.user.uid : '',
-  uid: state => state.login_user ? state.login_user.uid : '',
+  // uid: state => state.login_user ? state.login_user.uid : null,
+  uid: state => state.user ? state.user.uid : null,
   userName: state => state.login_user ? state.login_user.displayName : '',
   photoURL: state => state.login_user ? state.login_user.photoURL : '',
   loginUser(state){
-    console.log('ログイン状態:' + state.user.login)
-    return state.user.login
+    console.log('ログイン状態:' + state.login_user)
+    return state.login_user
   },
   user: state => {
     const user = firebase.auth().currentUser
-    state.use = user
-    return state.user
+    state.login_user = user
+    return state.login_user
+    // return state.user
   },
 }
 //   userName: state => state.login_user ? state.login_user.displayName : '',
