@@ -26,12 +26,17 @@ export const mutations = {
   addAddress(state,address){
     state.addresses.push(address)
   },
+
   //ログイン時の処理
   setLoginUser(state,user){
+    // console.log(state.login_user===null)
+    // state.login_user = user
     state.login_user = user
+    // console.log(state.login_user===null)
   },
   //ログアウト時の処理、userをnullにする
   deleteLoginUser(state){
+    // state.user = null
     state.login_user  = null
   },
  　// 認証状態を双方向に変化
@@ -71,16 +76,10 @@ export const actions = {
     console.log('getters.uid：'+ getters.setUserUid)
     console.log('getters.setPhotoURL：'+ getters.setPhotoURL)
     // console.log('getters.uid：'+getters.uid)　//getters.uidがnullになるのはなぜ？
-    if(getters.setUserUid){
-      firebase.firestore().collection(`users/${getters.setUserUid}/addresses`).add(address)
+    if(getters.uid){
+      firebase.firestore().collection(`users/{$getters.uid}/addresses`).add(address)
         commit('addAddress',address)
     }
-  },
-  //googleログインでの、firebase登録のデータ取り出し
-  fetchAddresses({ getters, commit }){
-    firebase.firestore().collection(`users/${getters.setUserUid}/addresses`).get().then(snapshot =>{
-      snapshot.forEach(doc=> commit('addAddress',doc.data()))
-    })
   },
   setLoginUser({ commit },user){
     commit('setLoginUser',user)

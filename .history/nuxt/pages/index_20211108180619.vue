@@ -29,7 +29,7 @@ created (){
       const { uid, displayName, photoURL } = user;
       this.$store.dispatch("setLoginUser", { uid, displayName ,photoURL });
       console.log('=== SIGNIN');
-      this.fetchAddresses()
+      // this.$store.commit('switchLogin')
       this.$router.push('/todos')
     } else {
       console.log('=== SIGNOUT');
@@ -43,7 +43,7 @@ created (){
   //   ...mapGetters(['loginUser'])
   // },
   methods: {
-    ...mapActions(['googleLogin','setLoginUser','logOut','deleteLoginUser','fetchAddresses']),
+    ...mapActions(['googleLogin','setLoginUser','logOut','deleteLoginUser']),
     // googleLogin(){
     //   const google_auth_provider = new firebase.auth.GoogleAuthProvider()
     //   firebase.auth().signInWithRedirect(google_auth_provider)

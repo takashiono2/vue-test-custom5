@@ -26,12 +26,17 @@ export const mutations = {
   addAddress(state,address){
     state.addresses.push(address)
   },
+
   //ログイン時の処理
   setLoginUser(state,user){
+    // console.log(state.login_user===null)
+    // state.login_user = user
     state.login_user = user
+    // console.log(state.login_user===null)
   },
   //ログアウト時の処理、userをnullにする
   deleteLoginUser(state){
+    // state.user = null
     state.login_user  = null
   },
  　// 認証状態を双方向に変化
@@ -68,20 +73,13 @@ export const mutations = {
 //参考https://firebase.google.cn/docs/auth/web/google-signin?hl=ja
 export const actions = {
   addAddress({ getters,commit },address){
-    console.log('getters.uid：'+ getters.setUserUid)
-    console.log('getters.setPhotoURL：'+ getters.setPhotoURL)
+    console.log(getters.uid)
     // console.log('getters.uid：'+getters.uid)　//getters.uidがnullになるのはなぜ？
-    if(getters.setUserUid){
-      firebase.firestore().collection(`users/${getters.setUserUid}/addresses`).add(address)
-        commit('addAddress',address)
-    }
-  },
-  //googleログインでの、firebase登録のデータ取り出し
-  fetchAddresses({ getters, commit }){
-    firebase.firestore().collection(`users/${getters.setUserUid}/addresses`).get().then(snapshot =>{
-      snapshot.forEach(doc=> commit('addAddress',doc.data()))
-    })
-  },
+    if(getters.uid){
+      firebase.firestore().collection(`users/{$getters.uid}/addresses`).add(address).then(doc=>{
+      commit('addAddress',address)}
+      )}
+    },
   setLoginUser({ commit },user){
     commit('setLoginUser',user)
   },
@@ -178,8 +176,8 @@ export const actions = {
 //   },
 }
 export const getters = {
-  uid: state => state.login_user ? state.login_user.uid : null,
-  // uid: state => state.user ? state.user.uid : null,
+  // uid: state => state.login_user ? state.login_user.uid : null,
+  uid: state => state.user ? state.user.uid : null,
   // userUid: state => state.userUid ? state.userUid : '',//追加
   // userName: state => state.login_user ? state.login_user.displayName : '',
   // photoURL: state => state.login_user ? state.login_user.photoURL : '',
@@ -194,9 +192,6 @@ export const getters = {
   },
   setPhotoURL(state){
     return state.photoURL
-  },
-  setUserUid(state){
-    return state.userUid
   },
   user: state => {
     const user = firebase.auth().currentUser

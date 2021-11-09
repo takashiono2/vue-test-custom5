@@ -79,7 +79,7 @@ export const actions = {
   //googleログインでの、firebase登録のデータ取り出し
   fetchAddresses({ getters, commit }){
     firebase.firestore().collection(`users/${getters.setUserUid}/addresses`).get().then(snapshot =>{
-      snapshot.forEach(doc=> commit('addAddress',doc.data()))
+      snapshot.forEach(doc=> commit('addAdress',doc.data()))
     })
   },
   setLoginUser({ commit },user){
